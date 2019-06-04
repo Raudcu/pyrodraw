@@ -32,7 +32,7 @@ class CeldaUnidad:
 
 
         # Cubo
-        self.cubo = Cubo(np.array(ijk)*np.sqrt(8), np.sqrt(8))
+        self.cubo = Cubo(np.sqrt(8), np.array(ijk)*np.sqrt(8))
         
 
         # Tetrahedros

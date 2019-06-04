@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from .celda import CeldaUnidad
 
-from ..figuras.cubo import Cubo
+from ..figuras.paralelepipedo import Paralelepipedo
 
 
 '''
@@ -47,11 +47,13 @@ class Sistema:
         self.numeros = numeros
         
 
-        # Genero la celdas y el cubo exterior.
+        # Genero la celdas y el paralelepipedo exterior para los bordes.
         self.celdas = [ CeldaUnidad([i,j,k], self.posiciones, self.spin_values) 
                         for j in range(self.iy,self.iy+self.Ly) 
                         for k in range(self.iz,self.iz+self.Lz)
                         for i in range(self.ix,self.ix+self.Lx) ]
+
+        self.paralelepipedo = Paralelepipedo(np.array([self.Lx,self.Ly,self.Lz])*np.sqrt(8))
 
 
     # Método para determinar posiciones de equilibrio (vértices de los tetrahedros).
@@ -81,9 +83,10 @@ class Sistema:
         return r0
     
                                
-    # Método para plotear todos los componentes del sistema.
+    # Método para plotear todos los componentes del sistema. Primero las celdas y después el borde del dibujo.
     def plotear(self, ax):
        
+        # Celdas
         for celda in self.celdas:
             
             # Cubo
@@ -91,10 +94,6 @@ class Sistema:
                 ax.add_collection3d(deepcopy(cara), zs='z')
 
 
-            for edge in deepcopy(celda.cubo.bordes):
-                ax.plot3D(*edge, color='black', lw=3)      
-
-    
             # Tetrahedros
             for tetrahedro in celda.tetrahedros:
                 
@@ -147,7 +146,12 @@ class Sistema:
 
                     ax.scatter(*monopolo.centro, s=monopolo.radio*2800/max(self.Lx,self.Ly,self.Lz), color=monopolo.color)
 
-                    
+        
+        # Bordes
+        for cara in self.paralelepipedo.caras:
+            ax.add_collection3d(deepcopy(cara), zs='z')
+
+            
         # Limits and aspect
         ax.set_xlim( self.ix*np.sqrt(8), (self.ix+max(self.Lx,self.Ly,self.Lz))*np.sqrt(8) )
         ax.set_ylim( self.iy*np.sqrt(8), (self.iy+max(self.Lx,self.Ly,self.Lz))*np.sqrt(8) )
