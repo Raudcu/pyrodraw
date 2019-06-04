@@ -1,0 +1,101 @@
+from mpl_toolkits.mplot3d import axes3d
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+
+from matplotlib import colors as mcolors
+
+import numpy as np
+
+from itertools import product, combinations
+
+
+'''
+:class: 'Cubo'. Clase para el dibujo de Cubos a partir de su lado 'L' y la posición 'vert' de uno de sus vértices. Lo armo dibujando las seis caras. Además se puede pasar como parámetro el valor de alpha para las caras ('face_alpha').
+'''
+
+class Cubo:
+
+    # Inicializo
+    def __init__(self, vert, L, face_alpha=0.01):
+        self.L = L
+
+        self.face_alpha = face_alpha
+
+        self.calcula_vertices(vert)
+        self.calcula_bordes()
+        self.calcula_caras()
+
+        self.dibuja_caras()
+    
+    
+    # Método para el cálculo de los vértices. Se corresponde a trasladar el vértice en [0,0,0] en 'vert'.
+    def calcula_vertices(self, vert):
+        self.vertices = vert + np.array(list(product([0, self.L], [0, self.L], [0, self.L])))
+   
+
+    # Método para el cálculo de los bordes.
+    def calcula_bordes(self):
+        
+        x,y,z = [],[],[]
+        
+        for s, e in combinations(self.vertices, 2):
+            if abs( np.sum(np.abs(s-e)) - self.L) < 0.0001:
+                x.append([s[0],e[0]])
+                y.append([s[1],e[1]])
+                z.append([s[2],e[2]])
+        
+        self.bordes = zip(x,y,z)
+
+
+    # Método para encontrar los vértices de cada cara del Cubo.
+    def calcula_caras(self):
+        
+        self.vert_caras = [] # Vértices de las caras del Cubo.
+        
+        
+        # Con este loop se consideran las seis maneras que corresponden de tomar de a cuatos puntos entre los ocho vértices del Cubo.
+        faces = [(2,0,1,3), (0,4,5,1), (0,4,6,2), (1,5,7,3), (6,2,3,7), (4,6,7,5)]
+        
+        for cara in faces:
+            vert_x = list(self.vertices[list(cara),0]) # Las cuatos posiciones x de cada vértice de la cara.
+            vert_y = list(self.vertices[list(cara),1]) # Las cuatos posiciones y de cada vértice de la cara.
+            vert_z = list(self.vertices[list(cara),2]) # Las cuatos posiciones z de cada vértice de la cara.
+        
+            self.vert_caras.append( [list(zip(vert_x, vert_y, vert_z))] )
+                        
+                
+    # Método par dibujar las caras del Cubo a partir de los vértices de sus caras. 
+    def dibuja_caras(self):
+        
+        self.caras = []
+            
+        for cara in self.vert_caras:
+            self.caras.append(Poly3DCollection(cara, facecolors = mcolors.to_rgba('gray', alpha=self.face_alpha)))
+
+
+            
+if __name__ == "__main__":
+
+    import matplotlib.pyplot as plt
+    from copy import deepcopy
+
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+
+    c = Cubo([1,1,1], np.sqrt(2)*2, 0.2)
+
+    for cara in c.caras:
+        ax.add_collection3d(deepcopy(cara), zs='z')
+
+    for edge in c.bordes:
+        ax.plot3D(*edge, color='red', lw=2)      
+
+    ax.scatter3D(*np.hsplit(c.vertices,3), s=60)
+
+    
+    ax.set_aspect('equal')
+    ax.view_init(20,-75)
+
+    plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
+    plt.show()

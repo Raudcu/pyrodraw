@@ -1,0 +1,188 @@
+import numpy as np
+import sys
+from copy import deepcopy
+
+from .celda import CeldaUnidad
+
+from ..figuras.cubo import Cubo
+
+
+'''
+:class: 'Sistema'. Clase para construir y plotear todas las celdas que se desean del Sistema, comenzando por la celda 'inicial', a partir de las posiciones de los spines en 'posiciones' (si la lista está vacía se calculará), sus valores de spin en 'spin_values' y el tamaño Lx, Ly, Lz que se desea dibujar en 'L'. Se inicializa también con 'flechas' y 'monopolos' que determinan qué clase de flechas y esferas se van a dibujar: True las lindas pero pesadas, False las feas pero livianas. El último argumento de inicialización es 'numeros' que indica si escribir o no el número de cada spin.
+'''
+
+class Sistema:
+    
+    # Inicializo
+    def __init__(self, spin_values, posiciones=np.array([]), inicial=np.array([0,0,0]), L=np.array([1,1,1]), flechas=True, monopolos=True, numeros=False):
+        self.N = len(spin_values)
+
+        self.L = round((self.N/16)**(1/3))
+
+        
+        if np.all(inicial < self.L) and np.all(L > 0) and np.all(L <= self.L) and np.all(inicial+L <= self.L):
+            self.ix = inicial[0]
+            self.iy = inicial[1]
+            self.iz = inicial[2]
+        
+            self.Lx = L[0]
+            self.Ly = L[1]
+            self.Lz = L[2]      
+
+        else:
+            sys.exit("\n***ERROR: Las celda/s requerida/s no se corresponde/n con la cantidad de datos ingresados***\n")
+
+            
+        self.spin_values = np.array(spin_values)
+
+        if posiciones.size==0:
+            self.posiciones = self.r0(self.N)
+        else:
+            self.posiciones = posiciones.values
+        
+        self.flechas = flechas
+
+        self.monopolos = monopolos
+
+        self.numeros = numeros
+        
+
+        # Genero la celdas y el cubo exterior.
+        self.celdas = [ CeldaUnidad([i,j,k], self.posiciones, self.spin_values) 
+                        for j in range(self.iy,self.iy+self.Ly) 
+                        for k in range(self.iz,self.iz+self.Lz)
+                        for i in range(self.ix,self.ix+self.Lx) ]
+
+
+    # Método para determinar posiciones de equilibrio (vértices de los tetrahedros).
+    def r0(self, N):
+
+        r0 = []
+        
+        for i in range(1,N,16):
+            Tetrahedron = []
+            
+            #Tetrahedros. Determino primero las posiciones de los centros de los cuatro tetrahedros up.
+            Tetrahedron.append( np.array([ int(i/16)%self.L, int((i/16)/self.L)%self.L, int((i/16)/(self.L*self.L)) ]) )
+            Tetrahedron.append( Tetrahedron[0] + [0.5, 0.5, 0.] )
+            Tetrahedron.append( Tetrahedron[0] + [0., 0.5, 0.5] )
+            Tetrahedron.append( Tetrahedron[0] + [0.5, 0., 0.5] )
+
+
+            #Átomos. Posiciono los átomos en los vértices de cada tetrahedro.
+            for j in range(4):                              
+                r0.append( Tetrahedron[j] + [0.125, 0.125, 0.125] )
+                r0.append( Tetrahedron[j] + [0.125, -0.125, -0.125] )
+                r0.append( Tetrahedron[j] + [-0.125, -0.125, 0.125] )
+                r0.append( Tetrahedron[j] + [-0.125, 0.125, -0.125] )
+                       
+        r0 /= np.sqrt(2)/4
+
+        return r0
+    
+                               
+    # Método para plotear todos los componentes del sistema.
+    def plotear(self, ax):
+       
+        for celda in self.celdas:
+            
+            # Cubo
+            for cara in celda.cubo.caras:
+                ax.add_collection3d(deepcopy(cara), zs='z')
+
+
+            for edge in deepcopy(celda.cubo.bordes):
+                ax.plot3D(*edge, color='black', lw=3)      
+
+    
+            # Tetrahedros
+            for tetrahedro in celda.tetrahedros:
+                
+                for cara in tetrahedro.caras:
+                    ax.add_collection3d(deepcopy(cara), zs='z')
+
+
+            # Spines
+            for j, spines in enumerate(celda.spines):
+
+                # Flechas
+                if self.flechas:
+
+                    for flecha, color in zip(spines.flechas, spines.colores):
+                        x, y, z = zip(*flecha.coordenadas)
+                        ax.plot_surface(np.array(x), np.array(y), np.array(z), color=color)
+
+                else:
+
+                    spines.colores = np.concatenate((spines.colores, np.repeat(spines.colores,2,axis=0)))
+                    ax.quiver(*np.hsplit(spines.posiciones,3), *np.hsplit(spines.vectores,3), 
+                              length=0.5, arrow_length_ratio=0.5, pivot='middle', normalize=True,            
+                              capstyle='round', colors=spines.colores, lw=2)
+                
+
+                # Puntos donde hay Spines que valen 0
+                for i, spin in enumerate(spines.s1234):
+
+                    if spin == 0:
+                        ax.scatter(*np.hsplit(spines.posiciones[i],3), s=50, c='C1')
+
+                        
+                # Números
+                if self.numeros:
+
+                    for i, pos in enumerate(spines.posiciones):
+                        ax.text(*pos+[0.05,0,-0.2], str(celda.spin_inicial+j*4+i+1))
+
+
+            # Monopolos
+            for monopolo in deepcopy(celda.monopolos):
+
+                if self.monopolos:
+                    
+                    if monopolo.radio!=0:
+                        x, y, z = zip(*monopolo.coordenadas)
+                        ax.plot_surface(np.array(x), np.array(y), np.array(z), color=monopolo.color)
+            
+                else:
+
+                    ax.scatter(*monopolo.centro, s=monopolo.radio*2800/max(self.Lx,self.Ly,self.Lz), color=monopolo.color)
+
+                    
+        # Limits and aspect
+        ax.set_xlim( self.ix*np.sqrt(8), (self.ix+max(self.Lx,self.Ly,self.Lz))*np.sqrt(8) )
+        ax.set_ylim( self.iy*np.sqrt(8), (self.iy+max(self.Lx,self.Ly,self.Lz))*np.sqrt(8) )
+        ax.set_zlim( self.iz*np.sqrt(8), (self.iz+max(self.Lx,self.Ly,self.Lz))*np.sqrt(8) )
+
+        ax.set_aspect('equal')
+
+        
+        # Hide axis. No uso ax.axis('off') para que pueda poner nombre a los ejes cuando sólo dibujo la red.
+        ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0)) 
+        ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0)) 
+        ax.w_zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0)) 
+    
+        ax.w_xaxis.line.set_color((1.0, 1.0, 1.0, 0.0)) 
+        ax.w_yaxis.line.set_color((1.0, 1.0, 1.0, 0.0)) 
+        ax.w_zaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
+
+        ax.set_xticks([])                               
+        ax.set_yticks([])                               
+        ax.set_zticks([])
+
+
+
+if __name__ == "__main__":
+
+    import matplotlib.pyplot as plt
+
+    import sys
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    filename = sys.argv[1]
+    s = Sistema(filename)
+    s.plotear(ax)
+    
+    plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
+    plt.show()

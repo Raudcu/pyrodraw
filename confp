@@ -1,0 +1,117 @@
+#!/usr/bin/env python3
+
+'''
+Script para plotear configuraciones de red Pirocloro.
+Se ejecuta en el directorio donde están los datos: confp FILE
+'''
+
+# General setup
+import sys
+import os.path
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from pirocloro.armado.sistema import Sistema
+
+
+# rc Parameters
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif', size=14)
+
+
+# Figure and axes
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+
+# Dependiendo de los parámetros ingresados:
+## '' dibuja solamente la red pirocloro y agrega detalles como el nombres a los ejes.
+## '+z' dibuja la configuración +z.
+## 'ms' dibuja la configuración de saturación con el campo en [111], con monopolos simples positivos en todos los Tetrahedros Up.
+## 'md' dibuja la configuración con monopolos dobles positivos en todos los Tetrahedros Up.
+## Si se pasa el nombre de un archivo, se obtienen de él los datos para dibujar la configuración. Si no se pasa más que el nombre, se supone que es un output de uno de mis programas y se obtienen del mismo, además de los valores de spin, sus posiciones. Si se pasa 'ch' como segundo argumento, significa que es un archivo de Chufo: se extraen de él los valores de spin y se los ubica en los vértices de los tetrahedros. Si en cambio se pasa un valor de columna como segundo argumento, significa entonces que se trata de un archivo de otra persona (que no debe tener header): se toman de esa columna los valores de spin y se los ubica en los vértices de los tetrahedros.
+
+if len(sys.argv)>3:
+    sys.exit("\n***ERROR: Demasiados argumentos ingresados***\n")
+
+    
+elif len(sys.argv)==1:
+    spin_values = np.array([0,0,0,0]*256)
+
+    # Labels
+    ax.set_xlabel('$x$', fontsize=26)
+    ax.set_ylabel('$y$', fontsize=26)
+    ax.set_zlabel('$z$', fontsize=26)
+    
+    ax.xaxis.labelpad = -10
+    ax.yaxis.labelpad = -10
+    ax.zaxis.labelpad = -10
+    
+    
+else:
+    filename = sys.argv[1]
+    
+    if filename=='+z':
+        spin_values = np.array([1,-1,1,-1]*256)
+    
+    elif filename=='ms':
+        spin_values = np.array([1,-1,-1,-1]*256)
+    
+    elif filename=='md':
+        spin_values = np.array([-1,-1,-1,-1]*256)
+
+    
+    else:
+        if not os.path.isfile(filename):
+            sys.exit("\n***ERROR: Opción no válida o archivo inexistente***\n")
+
+
+        if len(sys.argv) == 2: #Archivos míos
+            df = pd.read_csv(filename, sep='\s+', header=None, skiprows=1, float_precision='high') 
+            
+            posiciones = df.iloc[:,1:4]
+            spin_values = df.iloc[:,4]
+
+
+        elif len(sys.argv) == 3:
+        
+            if sys.argv[2]=='ch': #Archivos de Chufo
+
+                with open(filename, 'rt') as f:
+                    # Auxiliary list
+                    spin_values = []
+
+                    # Skip header     
+                    for _ in range(5):
+                        next(f)          
+
+                    # Extract spin values 
+                    for line in f:        
+                        row = line.split()
+                        spin_values.extend([int(s) for s in row[4:8]])
+
+                spin_values = np.array(spin_values)
+
+                
+            else: #Archivos de otros
+                df = pd.read_csv(filename, sep='\s+', header=None, float_precision='high') 
+
+                spin_values = df.iloc[:,int(sys.argv[2])-1]
+
+
+                
+# Construyo y ploteo el sistema. El único argumento obligatorio es 'spin_values', todos los demás se pueden obviar (sus valores por defecto de estos están definidos dentro de la clase 'Sistema').
+s = Sistema(spin_values, posiciones=np.array([]), inicial=np.array([0,0,0]), L=np.array([1,1,1]), flechas=False, monopolos=False, numeros=False)
+s.plotear(ax)
+
+
+# Show
+ax.view_init(20,-75)
+#ax.view_init(0,270)
+
+#plt.savefig(filename[:-4]+'.pdf', bbox_inches='tight')
+#plt.savefig(filename[:-4]+'.png', transparent=True, bbox_inches='tight', dpi=500)
+
+plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
+plt.show()
