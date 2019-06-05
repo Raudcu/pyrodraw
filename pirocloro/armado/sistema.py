@@ -53,9 +53,9 @@ class Sistema:
                         for k in range(self.iz,self.iz+self.Lz)
                         for i in range(self.ix,self.ix+self.Lx) ]
 
-        self.paralelepipedo = Paralelepipedo(np.array([self.Lx,self.Ly,self.Lz])*np.sqrt(8))
+        self.paralelepipedo = Paralelepipedo(np.array([self.Lx,self.Ly,self.Lz])*np.sqrt(8), np.array([self.ix, self.iy, self.iz])*np.sqrt(8))
 
-
+                                             
     # Método para determinar posiciones de equilibrio (vértices de los tetrahedros).
     def r0(self, N):
 

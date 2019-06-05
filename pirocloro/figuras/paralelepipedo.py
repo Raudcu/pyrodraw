@@ -15,7 +15,7 @@ from itertools import product, combinations
 class Paralelepipedo:
 
     # Inicializo
-    def __init__(self, L=[1,1,1], vert=[0,0,0], face_alpha=0.01, edge_color='black', line_width=2.5):
+    def __init__(self, L=[1,1,1], vert=[0,0,0], face_alpha=0, edge_color='black', line_width=1.5):
         self.L = L
         self.vert = vert
 
