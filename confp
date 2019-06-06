@@ -38,7 +38,6 @@ if len(sys.argv)>3:
     
 elif len(sys.argv)==1:
     spin_values = np.array([0,0,0,0]*256)
-    posiciones = np.array([])
 
     # Labels
     ax.set_xlabel('$x$', fontsize=26)
@@ -48,6 +47,11 @@ elif len(sys.argv)==1:
     ax.xaxis.labelpad = -10
     ax.yaxis.labelpad = -10
     ax.zaxis.labelpad = -10
+
+
+    # Construyo y ploteo el sistema.
+    s = Sistema(spin_values)
+    s.plotear(ax)
     
     
 else:
@@ -103,28 +107,26 @@ else:
                 spin_values = df.iloc[:,int(sys.argv[2])-1]
 
 
-# Ingreso de parámetros y opciones.
-print("\n*Ingresar 'x y z' de la celda inicial, separados por espacios [Enter para valor por defecto (0,0,0)]: ", end='')
-inicial = input().split()
-inicial = np.array([int(i) for i in inicial]) if inicial else np.zeros(3, np.int)
+    # Ingreso de parámetros y opciones.
+    print("\n*Ingresar 'x y z' de la celda inicial, separados por espacios [Enter para valor por defecto (0,0,0)]: ", end='')
+    inicial = input().split()
+    inicial = np.array([int(i) for i in inicial]) if inicial else np.zeros(3, np.int)
 
 
-print("\n*Ingresar 'Lx Ly Lz' del sistema a graficar, separados por espacios [Enter para valor por defecto (1,1,1)]: ", end='')
-L = input().split()
-L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)              
+    print("\n*Ingresar 'Lx Ly Lz' del sistema a graficar, separados por espacios [Enter para valor por defecto (1,1,1)]: ", end='')
+    L = input().split()
+    L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)
 
 
-print("\n*Ingresar 'y' si se desean spines y monopolos \"bonitos\" (es más lento) [Enter para flechas y puntos]: ", end='')
-nice = input()
-flechas, monopolos = (True, True) if nice=='y' else (False, False)
+    print("\n*Ingresar 'y' si se desean spines y monopolos \"bonitos\" (es más lento) [Enter para flechas y puntos]: ", end='')
+    nice = input()
+    flechas, monopolos = (True, True) if nice=='y' else (False, False)
 
 
-print("\n\n***Espere mientras se arma el plot***\n")
-
-
-# Construyo y ploteo el sistema. El único argumento obligatorio es 'spin_values', todos los demás se pueden obviar (sus valores por defecto de estos están definidos dentro de la clase 'Sistema').
-s = Sistema(spin_values, posiciones, inicial, L, flechas, monopolos, numeros=False)
-s.plotear(ax)
+    # Construyo y ploteo el sistema.
+    s = Sistema(spin_values, posiciones, inicial, L, field, flechas, monopolos, numeros=False)
+    print("\n\n***Espere mientras se arma el plot***\n")
+    s.plotear(ax)
 
 
 # Show

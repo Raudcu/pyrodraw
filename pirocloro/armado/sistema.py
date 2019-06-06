@@ -14,7 +14,7 @@ from ..figuras.paralelepipedo import Paralelepipedo
 class Sistema:
     
     # Inicializo
-    def __init__(self, spin_values, posiciones=np.array([]), inicial=np.array([0,0,0]), L=np.array([1,1,1]), flechas=True, monopolos=True, numeros=False):
+    def __init__(self, spin_values, posiciones=np.array([]), inicial=np.array([0,0,0]), L=np.array([1,1,1]), flechas=False, monopolos=False, numeros=False):
         self.N = len(spin_values)
 
         self.L = round((self.N/16)**(1/3))
@@ -150,6 +150,7 @@ class Sistema:
         # Bordes
         for cara in self.paralelepipedo.caras:
             ax.add_collection3d(deepcopy(cara), zs='z')
+                
 
             
         # Limits and aspect
