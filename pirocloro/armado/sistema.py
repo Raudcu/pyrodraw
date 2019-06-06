@@ -8,13 +8,13 @@ from ..figuras.paralelepipedo import Paralelepipedo
 
 
 '''
-:class: 'Sistema'. Clase para construir y plotear todas las celdas que se desean del Sistema, comenzando por la celda 'inicial', a partir de las posiciones de los spines en 'posiciones' (si la lista está vacía se calculará), sus valores de spin en 'spin_values' y el tamaño Lx, Ly, Lz que se desea dibujar en 'L'. Se inicializa también con 'flechas' y 'monopolos' que determinan qué clase de flechas y esferas se van a dibujar: True las lindas pero pesadas, False las feas pero livianas. El último argumento de inicialización es 'numeros' que indica si escribir o no el número de cada spin.
+:class: 'Sistema'. Clase para construir y plotear todas las celdas que se desean del Sistema, con los valores de spin en 'spin_values' y sus 'posiciones' (si la lista está vacía se calculará), comenzando por la celda 'inicial' y de tamaño Lx, Ly, Lz que se desea dibujar guardado en 'L'. Además es posible pasar un vector de campo en 'field', con el que se dibuja un flecha en esa dirección. Se inicializa también con 'flechas' y 'monopolos' que determinan qué clase de flechas y esferas se van a dibujar: True las lindas pero pesadas, False las feas pero livianas. El último argumento de inicialización es 'numeros' que indica si escribir o no el número de cada spin.
 '''
 
 class Sistema:
     
     # Inicializo
-    def __init__(self, spin_values, posiciones=np.array([]), inicial=np.array([0,0,0]), L=np.array([1,1,1]), flechas=False, monopolos=False, numeros=False):
+    def __init__(self, spin_values, posiciones=np.array([]), inicial=np.zeros(3,np.int), L=np.ones(3,np.int), field=np.zeros(3,np.int), flechas=False, monopolos=False, numeros=False):
         self.N = len(spin_values)
 
         self.L = round((self.N/16)**(1/3))
@@ -39,6 +39,8 @@ class Sistema:
             self.posiciones = self.r0(self.N)
         else:
             self.posiciones = posiciones.values
+
+        self.field = field/np.linalg.norm(field) if np.linalg.norm(field)>0 else field
         
         self.flechas = flechas
 
@@ -83,7 +85,7 @@ class Sistema:
         return r0
     
                                
-    # Método para plotear todos los componentes del sistema. Primero las celdas y después el borde del dibujo.
+    # Método para plotear todos los componentes del sistema. Primero las celdas, después el borde del dibujo y, si corresponde, la flecha que indica la dirección del campo.
     def plotear(self, ax):
        
         # Celdas
@@ -149,8 +151,14 @@ class Sistema:
         
         # Bordes
         for cara in self.paralelepipedo.caras:
-            ax.add_collection3d(deepcopy(cara), zs='z')
-                
+            ax.add_collection3d(deepcopy(cara), zs='z') 
+            
+
+        # Flecha de dirección del Campo
+        ax.quiver((self.Lx+0.2)*np.sqrt(8), 0.5*self.Ly*np.sqrt(8), 0.5*self.Lz*np.sqrt(8),
+                  *self.field,
+                  length=self.Lz*np.sqrt(8)/2, arrow_length_ratio=0.3, pivot='middle',            
+                  capstyle='round', colors='navy', lw=3)
 
             
         # Limits and aspect

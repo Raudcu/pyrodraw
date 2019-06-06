@@ -108,14 +108,19 @@ else:
 
 
     # Ingreso de parámetros y opciones.
-    print("\n*Ingresar 'x y z' de la celda inicial, separados por espacios [Enter para valor por defecto (0,0,0)]: ", end='')
+    print("\n*Ingresar 'x y z' de la celda inicial [Enter para valor por defecto (0,0,0)]: ", end='')
     inicial = input().split()
     inicial = np.array([int(i) for i in inicial]) if inicial else np.zeros(3, np.int)
 
 
-    print("\n*Ingresar 'Lx Ly Lz' del sistema a graficar, separados por espacios [Enter para valor por defecto (1,1,1)]: ", end='')
+    print("\n*Ingresar 'Lx Ly Lz' del sistema a graficar [Enter para valor por defecto (1,1,1)]: ", end='')
     L = input().split()
-    L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)
+    L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)              
+
+
+    print("\n*Ingresar dirección del campo 'Bx By Bz' [Enter para no graficar]: ", end='')
+    field = input().split()
+    field = np.array([int(i) for i in field]) if field else np.zeros(3, np.int)
 
 
     print("\n*Ingresar 'y' si se desean spines y monopolos \"bonitos\" (es más lento) [Enter para flechas y puntos]: ", end='')
@@ -124,8 +129,8 @@ else:
 
 
     # Construyo y ploteo el sistema.
-    s = Sistema(spin_values, posiciones, inicial, L, field, flechas, monopolos, numeros=False)
     print("\n\n***Espere mientras se arma el plot***\n")
+    s = Sistema(spin_values, posiciones, inicial, L, field, flechas, monopolos, numeros=False)
     s.plotear(ax)
 
 
