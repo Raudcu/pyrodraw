@@ -9,13 +9,13 @@ from itertools import product, combinations
 
 
 '''
-:class: 'Cubo'. Clase para el dibujo de Cubos a partir de su lado 'L' y la posición 'vert' de uno de sus vértices. Lo armo dibujando las seis caras, aunque también tiene la posibilidad de dibujar sólo los bordes. Además se puede pasar como parámetro el valor de alpha para las caras ('face_alpha'), el color de los bordes de las caras ('edge_color') y el grosor de los bordes de las caras ('line_width').
+:class: 'Cubo'. Clase para el dibujo de Cubos a partir de su lado 'L' y la posición 'vert' de uno de sus vértices. Lo armo dibujando las seis caras, aunque también tiene la posibilidad de dibujar sólo los bordes. Además se puede pasar como parámetro el valor de alpha para las caras ('face_alpha'), el color de los bordes de las caras ('edge_color'), el tipo de línea ('line_style') y su grosor ('line_width').
 '''
 
 class Cubo:
 
     # Inicializo
-    def __init__(self, L, vert=[0,0,0], face_alpha=0, edge_color='gray', line_width=1/3):
+    def __init__(self, L, vert=[0,0,0], face_alpha=0, edge_color='silver', line_style='--', line_width=1/3):
         self.L = L
         self.vert = vert
 
@@ -23,7 +23,7 @@ class Cubo:
         self.calcula_bordes()
         self.calcula_caras()
 
-        self.dibuja_caras(face_alpha, edge_color, line_width)
+        self.dibuja_caras(face_alpha, edge_color, line_style, line_width)
     
     
     # Método para el cálculo de los vértices. Se corresponde a trasladar el vértice en [0,0,0] en 'vert'.
@@ -63,12 +63,12 @@ class Cubo:
                         
                 
     # Método par dibujar las caras del Cubo a partir de los vértices de sus caras. 
-    def dibuja_caras(self, face_alpha, edge_color, line_width):
+    def dibuja_caras(self, face_alpha, edge_color, line_style, line_width):
         
         self.caras = []
             
         for cara in self.vert_caras:
-            self.caras.append(Poly3DCollection(cara, facecolors = mcolors.to_rgba('gray', alpha=face_alpha), edgecolors=edge_color, lw=line_width))
+            self.caras.append(Poly3DCollection(cara, facecolors = mcolors.to_rgba('gray', alpha=face_alpha), edgecolors=edge_color, linestyle=line_style, lw=line_width))
 
 
             
