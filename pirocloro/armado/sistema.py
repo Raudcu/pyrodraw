@@ -8,16 +8,16 @@ from ..figuras.paralelepipedo import Paralelepipedo
 
 
 '''
-:class: 'Sistema'. Clase para construir y plotear todas las celdas que se desean del Sistema, con los valores de spin en 'spin_values' y sus 'posiciones' (si la lista está vacía se calculará), comenzando por la celda 'inicial' y de tamaño Lx, Ly, Lz que se desea dibujar guardado en 'L'. Además es posible pasar un vector de campo en 'field', con el que se dibuja un flecha en esa dirección. Se inicializa también con 'flechas' y 'monopolos' que determinan qué clase de flechas y esferas se van a dibujar: True las lindas pero pesadas, False las feas pero livianas. El último argumento de inicialización es 'numeros' que indica si escribir o no el número de cada spin.
+:class: 'Sistema'. Clase para construir y plotear todas las celdas que se desean del Sistema, con los valores de spin 'spin_values' y sus 'posiciones' (si la lista está vacía se calculará), de tamaño Lx, Ly, Lz en 'L', comenzando por la celda 'inicial'. Además es posible pasar un vector de campo en 'field', con el que se dibuja un flecha en esa dirección. Se inicializa también con 'flechas' y 'monopolos' que determinan qué clase de flechas y esferas se van a dibujar: True las lindas pero pesadas, False las feas pero livianas. El último argumento de inicialización es 'numeros' que indica si escribir o no el número de cada spin.
 '''
 
 class Sistema:
     
     # Inicializo
-    def __init__(self, spin_values, posiciones=np.array([]), inicial=np.zeros(3,np.int), L=np.ones(3,np.int), field=np.zeros(3,np.int), flechas=False, monopolos=False, numeros=False):
+    def __init__(self, spin_values, posiciones=np.array([]), L=np.ones(3,np.int), inicial=np.zeros(3,np.int), field=np.zeros(3,np.int), flechas=False, monopolos=False, numeros=False):
         self.N = len(spin_values)
 
-        self.L = round((self.N/16)**(1/3))
+        self.L = round((self.N/16)**(1/3)) # L del sistema completo. Se supone cúbico.
 
         
         if np.all(inicial < self.L) and np.all(L > 0) and np.all(L <= self.L) and np.all(inicial+L <= self.L):
