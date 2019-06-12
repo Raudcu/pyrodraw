@@ -5,7 +5,7 @@ from copy import deepcopy
 from .celda import CeldaUnidad
 
 from ..figuras.paralelepipedo import Paralelepipedo
-
+from ..figuras.flecha import Flecha
 
 '''
 :class: 'Sistema'. Clase para construir y plotear todas las celdas que se desean del Sistema, con los valores de spin 'spin_values' y sus 'posiciones' (si la lista está vacía se calculará), de tamaño Lx, Ly, Lz en 'L', comenzando por la celda 'inicial'. Además es posible pasar un vector de campo en 'field', con el que se dibuja un flecha en esa dirección. Se inicializa también con 'flechas' y 'monopolos' que determinan qué clase de flechas y esferas se van a dibujar: True las lindas pero pesadas, False las feas pero livianas. El último argumento de inicialización es 'numeros' que indica si escribir o no el número de cada spin.
@@ -14,7 +14,7 @@ from ..figuras.paralelepipedo import Paralelepipedo
 class Sistema:
     
     # Inicializo
-    def __init__(self, spin_values, posiciones=np.array([]), L=np.ones(3,np.int), inicial=np.zeros(3,np.int), field=np.zeros(3,np.int), flechas=False, monopolos=False, numeros=False):
+    def __init__(self, spin_values, posiciones=np.array([]), L=np.ones(3,np.int), inicial=np.zeros(3,np.int), field=np.zeros(3,np.int)):
         self.N = len(spin_values)
 
         self.L = round((self.N/16)**(1/3)) # L del sistema completo. Se supone cúbico.
@@ -41,14 +41,8 @@ class Sistema:
             self.posiciones = posiciones.values
 
         self.field = field/np.linalg.norm(field) if np.linalg.norm(field)>0 else field
+
         
-        self.flechas = flechas
-
-        self.monopolos = monopolos
-
-        self.numeros = numeros
-        
-
         # Genero la celdas y el paralelepipedo exterior para los bordes.
         self.celdas = [ CeldaUnidad([i,j,k], self.posiciones, self.spin_values) 
                         for j in range(self.iy,self.iy+self.Ly) 
@@ -86,7 +80,7 @@ class Sistema:
     
                                
     # Método para plotear todos los componentes del sistema. Primero las celdas, después el borde del dibujo y, si corresponde, la flecha que indica la dirección del campo.
-    def plotear(self, ax):
+    def plotear(self, ax, plot_flechas=False, plot_monopolos=False, plot_numeros=False):
        
         # Celdas
         for celda in self.celdas:
@@ -107,7 +101,7 @@ class Sistema:
             for j, spines in enumerate(celda.spines):
 
                 # Flechas
-                if self.flechas:
+                if plot_flechas:
 
                     for flecha, color in zip(spines.flechas, spines.colores):
                         x, y, z = zip(*flecha.coordenadas)
@@ -129,7 +123,7 @@ class Sistema:
 
                         
                 # Números
-                if self.numeros:
+                if plot_numeros:
 
                     for i, pos in enumerate(spines.posiciones):
                         ax.text(*pos+[0.05,0,-0.2], str(celda.spin_inicial+j*4+i+1))
@@ -138,7 +132,7 @@ class Sistema:
             # Monopolos
             for monopolo in deepcopy(celda.monopolos):
 
-                if self.monopolos:
+                if plot_monopolos:
                     
                     if monopolo.radio!=0:
                         x, y, z = zip(*monopolo.coordenadas)
@@ -155,12 +149,23 @@ class Sistema:
             
 
         # Flecha de dirección del Campo
-        ax.quiver((self.Lx+0.2)*np.sqrt(8), 0.5*self.Ly*np.sqrt(8), 0.5*self.Lz*np.sqrt(8),
+        if plot_flechas and not np.all(self.field==0):
+
+            field_direction = Flecha([(self.Lx+0.2)*np.sqrt(8), 0.5*self.Ly*np.sqrt(8), 0.5*self.Lz*np.sqrt(8)],
+                                     self.field,
+                                     self.Lz*np.sqrt(8)/2, 0.3, 0.06*self.Lz, 1.8)
+
+            x, y, z = zip(*field_direction.coordenadas)
+            ax.plot_surface(np.array(x), np.array(y), np.array(z), color='navy')
+
+        else:
+
+            ax.quiver((self.Lx+0.2)*np.sqrt(8), 0.5*self.Ly*np.sqrt(8), 0.5*self.Lz*np.sqrt(8),
                   *self.field,
                   length=self.Lz*np.sqrt(8)/2, arrow_length_ratio=0.3, pivot='middle',            
                   capstyle='round', colors='navy', lw=3)
 
-            
+                         
         # Limits and aspect
         ax.set_xlim( self.ix*np.sqrt(8), (self.ix+max(self.Lx,self.Ly,self.Lz))*np.sqrt(8) )
         ax.set_ylim( self.iy*np.sqrt(8), (self.iy+max(self.Lx,self.Ly,self.Lz))*np.sqrt(8) )

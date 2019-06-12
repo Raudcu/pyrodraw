@@ -5,20 +5,21 @@ from pirocloro.figuras.cono import Cono
 
 
 '''
-:class: 'Flecha'. Clase para calcular las coordenadas cartesianas de una Flecha, armada con un Cilindro como vástago y un Cono como cabeza, a lo largo del eje 'eje' con centro en 'pivot', de radio 'radio' en su vástago, con una proporción entre los radios del vástago y la cabeza dada por 'cono_cilindro_radio_ratio' y una relación entre el largo del vástago y el largo total dada por 'cilindro_largo_ratio'.
+:class: 'Flecha'. Clase para calcular las coordenadas cartesianas de una Flecha, armada con un Cilindro como vástago y un Cono como cabeza, a lo largo del eje 'eje' con centro en 'pivot', de largo 'largo' y de radio 'radio' en su vástago, con una proporción entre los radios del vástago y la cabeza dada por 'cono_cilindro_radio_ratio' y una relación entre el largo del vástago y el largo total dada por 'cilindro_largo_ratio'.
 '''
 
 class Flecha:
     
     # Inicializo
-    def __init__(self, pivot, eje, radio, largo, cono_cilindro_radio_ratio, cilindro_largo_ratio):
-        self.pivot = np.array(pivot) - 0.5 * (1-cilindro_largo_ratio)*largo * np.array(eje)
+    def __init__(self, pivot, eje, largo, cilindro_largo_ratio, radio, cono_cilindro_radio_ratio):
+        self.pivot = np.array(pivot) - 0.5 * cilindro_largo_ratio*largo * np.array(eje)
         self.eje = eje # No lo normalizo porque lo hacen Cilindro y Cono
-        self.radio = radio
+
         self.largo = largo
+        self.radio = radio
         
-        self.cilindro = Cilindro(self.pivot, self.eje, self.radio, cilindro_largo_ratio * self.largo)
-        self.cono = Cono(self.cilindro.tapa, self.eje, cono_cilindro_radio_ratio * self.radio, (1-cilindro_largo_ratio) * self.largo)
+        self.cilindro = Cilindro(self.pivot, self.eje, self.radio, (1-cilindro_largo_ratio) * self.largo)
+        self.cono = Cono(self.cilindro.tapa, self.eje, cono_cilindro_radio_ratio * self.radio, cilindro_largo_ratio * self.largo)
         
         self.calcula_coordenadas()
         
@@ -47,7 +48,7 @@ if __name__ == "__main__":
     ax = fig.add_subplot(111, projection='3d')
 
 
-    f = Flecha([1,2,3], [-1,-2,1], 0.5, 10, 1.5, 0.6)
+    f = Flecha([1,2,3], [-1,-2,1], 0.5, 10, 1.5, 0.4)
 
     x, y, z = zip(*f.coordenadas)
     ax.plot_surface(np.array(x), np.array(y), np.array(z), color='r')

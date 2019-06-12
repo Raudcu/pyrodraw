@@ -21,9 +21,9 @@ class Spines:
         self.calcula_vectores()
         self.calcula_colores()
 
-        self.flechas = [ Flecha(pivot, eje, 0.036, 0.6, 1.8, 0.6) for pivot, eje in zip(self.posiciones,self.vectores) ] 
-               
+        self.flechas = [ Flecha(pivot, eje, 0.6, 0.4, 0.036, 1.8) for pivot, eje in zip(self.posiciones,self.vectores) ]                
 
+        
     # Método para calcular los vectores de cada spin de acuerdo a su valor.
     def calcula_vectores(self):
         self.vectores = np.matmul( np.diag(self.s1234), Spines.base_spin )

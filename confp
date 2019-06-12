@@ -51,7 +51,7 @@ elif len(sys.argv)==1:
 
     # Construyo y ploteo el sistema.
     s = Sistema(spin_values)
-    s.plotear(ax)
+    s.plotear(ax, plot_numeros=False)
     
     
 else:
@@ -125,13 +125,13 @@ else:
 
     print("\n*Ingresar 'y' si se desean spines y monopolos \"bonitos\" (es más lento) [Enter para flechas y puntos]: ", end='')
     nice = input()
-    flechas, monopolos = (True, True) if nice=='y' else (False, False)
+    plot_flechas, plot_monopolos = (True, True) if nice=='y' else (False, False)
 
 
     # Construyo y ploteo el sistema.
     print("\n\n***Espere mientras se arma el plot***\n")
-    s = Sistema(spin_values, posiciones, L, inicial, field, flechas, monopolos, numeros=False)
-    s.plotear(ax)
+    s = Sistema(spin_values, posiciones, L, inicial, field)
+    s.plotear(ax, plot_flechas, plot_monopolos)
 
 
 # Show
