@@ -108,18 +108,18 @@ else:
 
 
     # Ingreso de parámetros y opciones.
-    print("\n*Ingresar 'Lx Ly Lz' del sistema a graficar [Enter para valor por defecto (1,1,1)]: ", end='')
-    L = input().split()
+    print("\n*Ingresar 'LxLyLz' del sistema a graficar [Enter para valor por defecto 111]: ", end='')
+    L = input()
     L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)              
 
 
-    print("\n*Ingresar 'x y z' de la celda inicial [Enter para valor por defecto (0,0,0)]: ", end='')
-    inicial = input().split()
+    print("\n*Ingresar 'xyz' de la celda inicial [Enter para valor por defecto 000]: ", end='')
+    inicial = input()
     inicial = np.array([int(i) for i in inicial]) if inicial else np.zeros(3, np.int)
 
 
-    print("\n*Ingresar dirección del campo 'Bx By Bz' [Enter para no graficar]: ", end='')
-    field = input().split()
+    print("\n*Ingresar dirección del campo 'BxByBz' [Enter para no graficar]: ", end='')
+    field = input()
     field = np.array([int(i) for i in field]) if field else np.zeros(3, np.int)
 
 

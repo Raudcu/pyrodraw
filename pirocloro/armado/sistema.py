@@ -151,7 +151,7 @@ class Sistema:
         # Flecha de dirección del Campo
         if plot_flechas and not np.all(self.field==0):
 
-            field_direction = Flecha([(self.Lx+0.2)*np.sqrt(8), 0.5*self.Ly*np.sqrt(8), 0.5*self.Lz*np.sqrt(8)],
+            field_direction = Flecha([(self.ix+self.Lx+0.2)*np.sqrt(8), (self.iy+0.5*self.Ly)*np.sqrt(8), (self.iz+0.5*self.Lz)*np.sqrt(8)],
                                      self.field,
                                      self.Lz*np.sqrt(8)/2, 0.3, 0.06*self.Lz, 1.8)
 
@@ -160,7 +160,7 @@ class Sistema:
 
         else:
 
-            ax.quiver((self.Lx+0.2)*np.sqrt(8), 0.5*self.Ly*np.sqrt(8), 0.5*self.Lz*np.sqrt(8),
+            ax.quiver((self.ix+self.Lx+0.2)*np.sqrt(8), (self.iy+0.5*self.Ly)*np.sqrt(8), (self.iz+0.5*self.Lz)*np.sqrt(8),
                   *self.field,
                   length=self.Lz*np.sqrt(8)/2, arrow_length_ratio=0.3, pivot='middle',            
                   capstyle='round', colors='navy', lw=3)
