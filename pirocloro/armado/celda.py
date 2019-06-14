@@ -55,6 +55,10 @@ class CeldaUnidad:
         _data_file = os.path.join( os.path.dirname(os.path.realpath(__file__)), 'down_neighbors', 'L'+str(_L)+'.dat' )
 
         if not os.path.isfile(_data_file):
+            _folder = os.path.dirname(_data_file)
+            if not os.path.exists(_folder):
+                os.makedirs(_folder)
+                
             for i in range(0, len(spin_values), 4):
                 CeldaUnidad.tetra_down(_data_file, i, posiciones, _L)
 
@@ -98,7 +102,7 @@ class CeldaUnidad:
 
         # Guardo el array de vecinos_down con el spin i insertado al principio.
         with open(data_file, 'a') as fl:
-             np.savetxt(fl, np.atleast_2d(np.insert(np.sort(vecinos_down), 0, i)), fmt='%8d', delimiter=' ')
+            np.savetxt(fl, np.atleast_2d(np.insert(np.sort(vecinos_down), 0, i)), fmt='%8d', delimiter=' ')
 
 
 
