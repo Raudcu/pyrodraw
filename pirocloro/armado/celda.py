@@ -11,7 +11,7 @@ from ..piezas.monopolo import Monopolo
 
 
 '''
-:class: 'CeldaUnidad'. Clase para construir todos los elementos de una celda unidad a partir de su posición particular 'ijk', las posiciones de los spines en 'posiciones' y sus valores de spin en 'spin_values'.
+:class: 'CeldaUnidad'. Clase para construir todos los elementos de una celda unidad a partir de su posición particular 'ijk', las posiciones de los spines en 'posiciones' y sus valores de spin en 'spin_values'. El parámetro 'N_cells', que da cuenta del número total de celdas a dibujar, se pasa como argumento para la graduación del color de las caras de los tetrahedros.
 '''
 
 class CeldaUnidad:
@@ -21,7 +21,7 @@ class CeldaUnidad:
     
 
     #Inicializo
-    def __init__(self, ijk, posiciones, spin_values):
+    def __init__(self, ijk, posiciones, spin_values, N_cells):
         self.i = ijk[0]
         self.j = ijk[1]
         self.k = ijk[2]
@@ -38,7 +38,7 @@ class CeldaUnidad:
         
 
         # Tetrahedros
-        self.tetrahedros = [ Tetrahedro(centro, np.sqrt(0.5)) for centro in self.centros_up ]
+        self.tetrahedros = [ Tetrahedro(centro, np.sqrt(0.5), N_cells) for centro in self.centros_up ]
         
 
         # Spines 

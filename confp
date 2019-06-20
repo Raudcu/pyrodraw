@@ -137,6 +137,7 @@ else:
 # Show
 ax.view_init(20,-75)
 #ax.view_init(0,270)
+#ax.view_init(0,45)
 
 #plt.savefig(filename[:-4]+'.pdf', bbox_inches='tight')
 #plt.savefig(filename[:-4]+'.png', transparent=True, bbox_inches='tight', dpi=500)

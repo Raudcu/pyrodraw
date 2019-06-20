@@ -9,21 +9,19 @@ from itertools import combinations
 
 
 '''
-:class: 'Tetrahedro'. Clase para el dibujo de Tetrahedros de a pares (uno 'Up' y uno 'Down') en la dirección [111], a partir del centro del 'Up' y el lado 'L' del cubo en el que se inscribe. Lo armo dibujando las cuatro caras triangulares de cada Tetrahedro. Además se puede pasar como parámetro el valor de alpha para los bordes ('edge_alpha').
+:class: 'Tetrahedro'. Clase para el dibujo de Tetrahedros de a pares (uno 'Up' y uno 'Down') en la dirección [111], a partir del centro del 'Up' y el lado 'L' del cubo en el que se inscribe. Lo armo dibujando las cuatro caras triangulares de cada Tetrahedro. También se puede pasar como argumento 'N', que es un número relacionado a la intensidad del sombreado en las caras (cuánto mayor es N, más transparentes serán las caras).
 '''
 
 class Tetrahedro:     
     
     # Inicializo
-    def __init__(self, centro, L, edge_alpha=0.1):
+    def __init__(self, centro, L, N=1):
         self.centro = centro
         self.L = L
 
-        self.edge_alpha = edge_alpha
-        
         self.calcula_vertices()
         self.calcula_caras()
-        self.dibuja_caras()
+        self.dibuja_caras(N)
     
     
     # Método para el cálulo de los vértices. Se corresponde a sumarle a 'centro' las posiciones de los vértices del Tetrahedro 'Up' respecto a su centro.
@@ -53,18 +51,18 @@ class Tetrahedro:
                         
                 
     # Método par dibujar las caras de ambos Tetrahedros a partir de los vértices de sus caras. 
-    def dibuja_caras(self):
+    def dibuja_caras(self, N):
         
         self.caras = []
             
         for i, cara_up, cara_down in zip(range(4), self.vert_up, self.vert_down):
             self.caras.append(Poly3DCollection(cara_up, 
-                                               facecolors = mcolors.to_rgba('mediumpurple', alpha=0.1 + i*0.1),
-                                               edgecolors = mcolors.to_rgba('gray', alpha=self.edge_alpha)))
+                                               facecolors = mcolors.to_rgba('mediumpurple', alpha=(0.1 + i*0.1)/np.cbrt(N)),
+                                               edgecolors = mcolors.to_rgba('gray', alpha=0.1/np.cbrt(N))))
             
             self.caras.append(Poly3DCollection(cara_down, 
-                                               facecolors = mcolors.to_rgba('lightskyblue', alpha=0.1 + i*0.1),
-                                               edgecolors = mcolors.to_rgba('gray', alpha=self.edge_alpha)))
+                                               facecolors = mcolors.to_rgba('lightskyblue', alpha=(0.1 + i*0.1)/np.cbrt(N)),
+                                               edgecolors = mcolors.to_rgba('gray', alpha=0.1/np.cbrt(N))))
 
             
 

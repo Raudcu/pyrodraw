@@ -15,7 +15,7 @@ from itertools import product, combinations
 class Cubo:
 
     # Inicializo
-    def __init__(self, L, vert=[0,0,0], face_alpha=0, edge_color='silver', line_style='--', line_width=1/3):
+    def __init__(self, L, vert=[0,0,0], face_alpha=0, edge_color='silver', line_style=':', line_width=0.2):
         self.L = L
         self.vert = vert
 

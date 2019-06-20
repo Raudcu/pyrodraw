@@ -27,12 +27,13 @@ class Sistema:
         
             self.Lx = L[0]
             self.Ly = L[1]
-            self.Lz = L[2]      
+            self.Lz = L[2]
+            self.N_cells = np.prod(L)
 
         else:
             sys.exit("\n***ERROR: Las celda/s requerida/s no se corresponde/n con la cantidad de datos ingresados***\n")
 
-            
+        
         self.spin_values = np.array(spin_values)
 
         if posiciones.size==0:
@@ -44,7 +45,7 @@ class Sistema:
 
         
         # Genero la celdas y el paralelepipedo exterior para los bordes.
-        self.celdas = [ CeldaUnidad([i,j,k], self.posiciones, self.spin_values) 
+        self.celdas = [ CeldaUnidad([i,j,k], self.posiciones, self.spin_values, self.N_cells) 
                         for j in range(self.iy,self.iy+self.Ly) 
                         for k in range(self.iz,self.iz+self.Lz)
                         for i in range(self.ix,self.ix+self.Lx) ]
@@ -112,7 +113,7 @@ class Sistema:
                     spines.colores = np.concatenate((spines.colores, np.repeat(spines.colores,2,axis=0)))
                     ax.quiver(*np.hsplit(spines.posiciones,3), *np.hsplit(spines.vectores,3), 
                               length=0.5, arrow_length_ratio=0.5, pivot='middle', normalize=True,            
-                              capstyle='round', colors=spines.colores, lw=2)
+                              capstyle='round', colors=spines.colores, lw=2/np.cbrt(self.N_cells))
                 
 
                 # Puntos donde hay Spines que valen 0
