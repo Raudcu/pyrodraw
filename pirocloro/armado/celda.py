@@ -51,29 +51,40 @@ class CeldaUnidad:
         self.monopolos = [ Monopolo(centro, -int(sum( spin_values[i:i+4] )))
                           for centro, i in zip(self.centros_up, range(self.spin_inicial, self.spin_inicial+16, 4)) ]
 
-        ## Tetrahedros Down
+        
+        ## Tetrahedros Down. Los vecinos para formar el tetrahedro down se pueden buscar con el método 'tetra_down'. Para acelerar la ejecución, en especial para tamaños grandes de sistema, se van guardando en archivos las tabla de vecinos para cada valor de L: si alguna vez ya se buscó los vecinos para ese spin, estará en la tabla y se extrae de allí, caso contrario, se busca con el método antes mencionado y se añade también al archivo.
         _data_file = os.path.join( os.path.dirname(os.path.realpath(__file__)), 'down_neighbors', 'L'+str(_L)+'.dat' )
 
-        if not os.path.isfile(_data_file):
+        
+        if os.path.isfile(_data_file):
+            _down_neighbors = pd.read_csv(_data_file, sep='\s+', header=None, index_col=0, dtype=np.int)
+
+        else:
             _folder = os.path.dirname(_data_file)
             if not os.path.exists(_folder):
                 os.makedirs(_folder)
-                
-            for i in range(0, len(spin_values), 4):
-                CeldaUnidad.tetra_down(_data_file, i, posiciones, _L)
 
-        _down_neighbors = pd.read_csv(_data_file, sep='\s+', header=None, index_col=0, dtype=np.int)
-         
+            _down_neighbors = pd.DataFrame()
+                
 
         for centro, i in zip(self.centros_down, range(self.spin_inicial, self.spin_inicial + 16, 4)):
-            _spines_down = np.insert(_down_neighbors.loc[i].values, 0, i)
-            
+
+            if _down_neighbors.index.contains(i):
+                _spines_down = np.insert(_down_neighbors.loc[i].values, 0, i)
+
+            else:
+                _spines_down = CeldaUnidad.tetra_down(i, posiciones, _L)
+
+                with open(_data_file, 'a') as fl:
+                    np.savetxt(fl, np.atleast_2d(_spines_down), fmt='%8d', delimiter=' ')
+
+                
             self.monopolos.append( Monopolo(centro, int(sum( spin_values[_spines_down] ))) )
 
 
     @staticmethod
     # Método para dado un spin apical de un Tetrahedro Up, determinar los vecinos con los que conforma el Down.
-    def tetra_down(data_file, i, posiciones, L):
+    def tetra_down(i, posiciones, L):
         # Caja
         box = L * np.sqrt(8)
       
@@ -100,10 +111,8 @@ class CeldaUnidad:
         vecinos_down = vecinos[ np.apply_along_axis(lambda x: np.all(x>=-np.sqrt(2)/4), 1, r_ij[vecinos]) ]
 
 
-        # Guardo el array de vecinos_down con el spin i insertado al principio.
-        with open(data_file, 'a') as fl:
-            np.savetxt(fl, np.atleast_2d(np.insert(np.sort(vecinos_down), 0, i)), fmt='%8d', delimiter=' ')
-
+        # Retorno el array ordenado de vecinos_down con el spin i insertado al principio.
+        return np.insert(np.sort(vecinos_down), 0, i)
 
 
 if __name__ == "__main__":
