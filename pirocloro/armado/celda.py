@@ -135,7 +135,6 @@ if __name__ == "__main__":
     for cara in c.cubo.caras:
         ax.add_collection3d(deepcopy(cara), zs='z')
 
-
     for edge in deepcopy(c.cubo.bordes):
         ax.plot3D(*edge, color='black', lw=2)      
 
