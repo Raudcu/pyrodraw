@@ -78,16 +78,17 @@ s = Spines(posiciones, s1234)
     
 # Puntos donde hay Spines que valen 0
 # for i, spin in enumerate(s.s1234):
-
 #     if spin == 0:
 #         ax.scatter(*np.hsplit(s.posiciones[i],3), s=50, c='C1')
 
 
 # Monopolos
-# m = Monopolo([0,0,0], int(sum( s1234 )))
+#m = Monopolo([0,0,0], int(sum( s1234 )))
 
 # x, y, z = zip(*m.coordenadas)
 # ax.plot_surface(np.array(x), np.array(y), np.array(z), color=m.color)
+
+#ax.scatter(*m.centro, s=m.radio*2800, color=m.color)
 
 
 # Números a los sitios
