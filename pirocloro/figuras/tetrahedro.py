@@ -38,24 +38,22 @@ class Tetrahedro:
         
         # Con este loop se consideran todas las maneras de tomar de a tres puntos entre los cuatro vértices del Tetrahedro, o sea, los vértices de cada cara triangular.
         for cara in combinations(range(4), 3):
-            vert_x = list(self.vertices[list(cara),0]) # Las tres posiciones x de cada vértice de la cara triangular.
-            vert_y = list(self.vertices[list(cara),1]) # Las tres posiciones y de cada vértice de la cara triangular.
-            vert_z = list(self.vertices[list(cara),2]) # Las tres posiciones z de cada vértice de la cara triangular.
+            vert_x = self.vertices[cara,0] # Las tres posiciones x de cada vértice de la cara triangular.
+            vert_y = self.vertices[cara,1] # Las tres posiciones y de cada vértice de la cara triangular.
+            vert_z = self.vertices[cara,2] # Las tres posiciones z de cada vértice de la cara triangular.
         
-            self.vert_up.append( [list(zip(vert_x, vert_y, vert_z))] )
+            self.vert_up.append( [[ np.array(vert) for vert in zip(vert_x, vert_y, vert_z) ]] )
             
             # Las caras del Tetrahedro down se arman invirtiendo los valores de los vértices y trasladándolos.
-            self.vert_down.append( [list(zip(list( -np.array(vert_x) + 2*self.vertices[0,0] ),
-                                list( -np.array(vert_y) + 2*self.vertices[0,1] ),
-                                list( -np.array(vert_z)) + 2*self.vertices[0,2] ))] )
-                        
+            self.vert_down.append( [[ np.array(vert) for vert in zip(-np.array(vert_x)+2*self.vertices[0,0], -np.array(vert_y)+2*self.vertices[0,1], -np.array(vert_z)+2*self.vertices[0,2]) ]] )
+
                 
     # Método par dibujar las caras de ambos Tetrahedros a partir de los vértices de sus caras. 
     def dibuja_caras(self, N):
         
         self.caras = []
             
-        for i, cara_up, cara_down in zip(range(4), self.vert_up, self.vert_down):
+        for i, (cara_up, cara_down) in enumerate(zip(self.vert_up, self.vert_down)):
             self.caras.append(Poly3DCollection(cara_up, 
                                                facecolors = mcolors.to_rgba('mediumpurple', alpha=(0.1 + i*0.1)/np.cbrt(N)),
                                                edgecolors = mcolors.to_rgba('gray', alpha=0.1/np.cbrt(N))))
@@ -64,14 +62,12 @@ class Tetrahedro:
                                                facecolors = mcolors.to_rgba('lightskyblue', alpha=(0.1 + i*0.1)/np.cbrt(N)),
                                                edgecolors = mcolors.to_rgba('gray', alpha=0.1/np.cbrt(N))))
 
-            
+
 
 if __name__ == "__main__":
 
     import matplotlib.pyplot as plt
-    from copy import deepcopy
 
-    from cubo import Cubo
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -80,7 +76,7 @@ if __name__ == "__main__":
     t = Tetrahedro([0,0,0], 0.5)
 
     for cara in t.caras:
-        ax.add_collection3d(deepcopy(cara), zs='z')
+        ax.add_collection3d(cara)
 
     ax.scatter(*np.hsplit(t.vertices,3), s=0)
 

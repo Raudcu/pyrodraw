@@ -53,13 +53,13 @@ class Cubo:
         
         # Con este loop se consideran las seis maneras que corresponden de tomar de a cuatos puntos entre los ocho vértices del Cubo.
         faces = [(2,0,1,3), (0,4,5,1), (0,4,6,2), (1,5,7,3), (6,2,3,7), (4,6,7,5)]
-        
+
         for cara in faces:
-            vert_x = list(self.vertices[list(cara),0]) # Las cuatos posiciones x de cada vértice de la cara.
-            vert_y = list(self.vertices[list(cara),1]) # Las cuatos posiciones y de cada vértice de la cara.
-            vert_z = list(self.vertices[list(cara),2]) # Las cuatos posiciones z de cada vértice de la cara.
+            vert_x = self.vertices[cara,0] # Las cuatos posiciones x de cada vértice de la cara.
+            vert_y = self.vertices[cara,1] # Las cuatos posiciones y de cada vértice de la cara.
+            vert_z = self.vertices[cara,2] # Las cuatos posiciones z de cada vértice de la cara.
         
-            self.vert_caras.append( [list(zip(vert_x, vert_y, vert_z))] )
+            self.vert_caras.append( [[np.array(vert) for vert in zip(vert_x, vert_y, vert_z)]] )
                         
                 
     # Método par dibujar las caras del Cubo a partir de los vértices de sus caras. 
@@ -82,18 +82,29 @@ if __name__ == "__main__":
     ax = fig.add_subplot(111, projection='3d')
 
 
-    c = Cubo(np.sqrt(2)*2, [1,1,1], 0.2, 'black', 1)
+    c = Cubo(np.sqrt(2)*2, [1,1,1], 0.2, 'black', '-', 1)
 
     for cara in c.caras:
-        ax.add_collection3d(deepcopy(cara), zs='z')
+        ax.add_collection3d(deepcopy(cara))
 
     for edge in c.bordes:
         ax.plot3D(*edge, color='red', lw=3)      
 
     ax.scatter3D(*np.hsplit(c.vertices,3), s=60)
 
+
+    c = Cubo(1)
+
+    for cara in c.caras:
+        ax.add_collection3d(deepcopy(cara))
+
+    for edge in c.bordes:
+        ax.plot3D(*edge, color='blue', lw=2)      
+
+    ax.scatter3D(*np.hsplit(c.vertices,3), s=60)
+
     
-    ax.set_aspect('equal')
+    #ax.set_aspect('equal')
     ax.view_init(20,-75)
 
     plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
