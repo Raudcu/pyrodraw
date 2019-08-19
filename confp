@@ -103,23 +103,19 @@ else:
 
 
     # Ingreso de parámetros y opciones.
-    print("\n*Ingresar 'LxLyLz' del sistema a graficar [Enter para valor por defecto 111]: ", end='')
-    L = input()
+    L = input("\n*Ingresar 'LxLyLz' del sistema a graficar [Enter para valor por defecto 111]: ")
     L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)              
 
 
-    print("\n*Ingresar 'xyz' de la celda inicial [Enter para valor por defecto 000]: ", end='')
-    inicial = input()
+    inicial = input("\n*Ingresar 'xyz' de la celda inicial [Enter para valor por defecto 000]: ")
     inicial = np.array([int(i) for i in inicial]) if inicial else np.zeros(3, np.int)
 
 
-    print("\n*Ingresar dirección del campo 'BxByBz' [Enter para no graficar]: ", end='')
-    field = input()
+    field = input("\n*Ingresar dirección del campo 'BxByBz' [Enter para no graficar]: ")
     field = np.array([int(i) for i in field]) if field else np.zeros(3, np.int)
 
 
-    print("\n*Ingresar 'y' si se desean spines y monopolos \"bonitos\" (es más lento) [Enter para flechas y puntos]: ", end='')
-    nice = input()
+    nice = input("\n*Ingresar 'y' si se desean spines y monopolos \"bonitos\" (es más lento) [Enter para flechas y puntos]: ")
     plot_flechas, plot_monopolos = (True, True) if nice=='y' else (False, False)
 
 
