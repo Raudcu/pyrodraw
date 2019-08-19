@@ -132,7 +132,7 @@ ax.view_init(25,-55)
 #ax.view_init(0,270)
 #ax.view_init(0,45)
 
-#plt.savefig('tetra.pdf', bbox_inches='tight')
+#plt.savefig('tetra.pdf', transparent=True, bbox_inches='tight')
 #plt.savefig('tetra.png', transparent=True, bbox_inches='tight', dpi=500)
 
 plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
