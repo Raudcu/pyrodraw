@@ -15,11 +15,6 @@ import matplotlib.pyplot as plt
 from pirocloro.armado.sistema import Sistema
 
 
-# rc Parameters
-plt.rc('text', usetex=True)
-plt.rc('font', family='serif', size=14)
-
-
 # Figure and axes
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
@@ -40,10 +35,10 @@ elif len(sys.argv)==1:
     spin_values = np.array([0,0,0,0]*256)
 
     # Labels
-    ax.set_xlabel('$x$', fontsize=26)
-    ax.set_ylabel('$y$', fontsize=26)
-    ax.set_zlabel('$z$', fontsize=26)
-    
+    ax.set_xlabel('x', fontfamily='serif', fontsize=20)
+    ax.set_ylabel('y', fontfamily='serif', fontsize=20)
+    ax.set_zlabel('z', fontfamily='serif', fontsize=20)
+
     ax.xaxis.labelpad = -10
     ax.yaxis.labelpad = -10
     ax.zaxis.labelpad = -10
@@ -52,11 +47,11 @@ elif len(sys.argv)==1:
     # Construyo y ploteo el sistema.
     s = Sistema(spin_values)
     s.plotear(ax, plot_numeros=False)
-    
-    
+
+
 else:
     posiciones = np.array([])
-    
+
     filename = sys.argv[1]
         
     if filename=='+z':

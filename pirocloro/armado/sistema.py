@@ -127,7 +127,7 @@ class Sistema:
                 if plot_numeros:
 
                     for i, pos in enumerate(spines.posiciones):
-                        ax.text(*pos+[0.05,0,-0.2], str(celda.spin_inicial+j*4+i+1))
+                        ax.text(*pos+[0.05,0,-0.2], str(celda.spin_inicial+j*4+i+1), fontfamily='serif', fontsize=12)
 
 
             # Monopolos

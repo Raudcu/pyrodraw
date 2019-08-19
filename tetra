@@ -27,7 +27,7 @@ ax = fig.add_subplot(111, projection='3d')
 
 
 # Tetrahedros
-t = Tetrahedro([0,0,0], np.sqrt(0.5))
+t = Tetrahedro([0,0,0], np.sqrt(2)/2)
 
 for cara in t.caras:#[::2]:
     ax.add_collection3d(deepcopy(cara), zs='z')
