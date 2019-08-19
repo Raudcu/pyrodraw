@@ -95,9 +95,9 @@ ax.zaxis.labelpad = -10
 
 
 # Limits for only one Tetrahedron
-# ax.set_xlim(-np.sqrt(2)/4,np.sqrt(2)/4)
-# ax.set_ylim(-np.sqrt(2)/4,np.sqrt(2)/4)
-# ax.set_zlim(-np.sqrt(2)/4,np.sqrt(2)/4)
+#ax.set_xlim(-np.sqrt(2)/4*1.2, np.sqrt(2)/4)
+#ax.set_ylim(-np.sqrt(2)/4*1.2, np.sqrt(2)/4)
+#ax.set_zlim(-np.sqrt(2)/4*1.2, np.sqrt(2)/4)
 
 
 # Hide axis
