@@ -40,39 +40,34 @@ class Paralelepipedo:
         faces = [(2,0,1,3), (0,4,5,1), (0,4,6,2), (1,5,7,3), (6,2,3,7), (4,6,7,5)]
         
         for cara in faces:
-            vert_x = list(self.vertices[list(cara),0]) # Las cuatos posiciones x de cada vértice de la cara.
-            vert_y = list(self.vertices[list(cara),1]) # Las cuatos posiciones y de cada vértice de la cara.
-            vert_z = list(self.vertices[list(cara),2]) # Las cuatos posiciones z de cada vértice de la cara.
+            vert_x = self.vertices[cara,0] # Las cuatos posiciones x de cada vértice de la cara.
+            vert_y = self.vertices[cara,1] # Las cuatos posiciones y de cada vértice de la cara.
+            vert_z = self.vertices[cara,2] # Las cuatos posiciones z de cada vértice de la cara.
         
-            self.vert_caras.append( [list(zip(vert_x, vert_y, vert_z))] )
+            self.vert_caras.append( [np.array(vert) for vert in zip(vert_x, vert_y, vert_z)] )
                         
                 
     # Método par dibujar las caras del Paralelepipedo a partir de los vértices de sus caras. 
     def dibuja_caras(self, face_alpha, edge_color, line_width):
         
-        self.caras = []
-            
-        for cara in self.vert_caras:
-            self.caras.append(Poly3DCollection(cara, facecolors = mcolors.to_rgba('gray', alpha=face_alpha), edgecolors=edge_color, lw=line_width))
+        self.caras = Poly3DCollection(self.vert_caras, facecolors = mcolors.to_rgba('gray', alpha=face_alpha), edgecolors=edge_color, lw=line_width)
 
 
             
 if __name__ == "__main__":
 
     import matplotlib.pyplot as plt
-    from copy import deepcopy
 
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
 
-    c = Paralelepipedo(np.array([1,2,3])*np.sqrt(2)*2, [1,1,1], 0.2, 'red', 2)
+    p = Paralelepipedo(np.array([1,2,3])*np.sqrt(2)*2, [1,1,1], 0.2, 'orange', 4)
 
-    for cara in c.caras:
-        ax.add_collection3d(deepcopy(cara), zs='z')
+    ax.add_collection3d(p.caras, zs='z')
 
-    ax.scatter3D(*np.hsplit(c.vertices,3), s=60)
+    ax.scatter3D(*np.hsplit(p.vertices,3), s=60)
 
     
     ax.set_aspect('equal')

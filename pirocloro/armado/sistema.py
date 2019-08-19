@@ -1,6 +1,5 @@
 import numpy as np
 import sys
-from copy import deepcopy
 
 from .celda import CeldaUnidad
 
@@ -87,15 +86,14 @@ class Sistema:
         for celda in self.celdas:
             
             # Cubo
-            for cara in celda.cubo.caras:
-                ax.add_collection3d(deepcopy(cara), zs='z')
+            ax.add_collection3d(celda.cubo.caras)
 
 
             # Tetrahedros
             for tetrahedro in celda.tetrahedros:
                 
                 for cara in tetrahedro.caras:
-                    ax.add_collection3d(deepcopy(cara), zs='z')
+                    ax.add_collection3d(cara)
 
 
             # Spines
@@ -131,7 +129,7 @@ class Sistema:
 
 
             # Monopolos
-            for monopolo in deepcopy(celda.monopolos):
+            for monopolo in celda.monopolos:
 
                 if plot_monopolos:
                     
@@ -145,8 +143,7 @@ class Sistema:
 
         
         # Bordes
-        for cara in self.paralelepipedo.caras:
-            ax.add_collection3d(deepcopy(cara), zs='z') 
+        ax.add_collection3d(self.paralelepipedo.caras) 
             
 
         # Flecha de dirección del Campo
@@ -187,21 +184,3 @@ class Sistema:
         ax.set_xticks([])                               
         ax.set_yticks([])                               
         ax.set_zticks([])
-
-
-
-if __name__ == "__main__":
-
-    import matplotlib.pyplot as plt
-
-    import sys
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-
-    filename = sys.argv[1]
-    s = Sistema(filename)
-    s.plotear(ax)
-    
-    plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
-    plt.show()

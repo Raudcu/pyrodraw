@@ -13,12 +13,6 @@ from pirocloro.piezas.monopolo import Monopolo
 
 import matplotlib.pyplot as plt
 import numpy as np
-from copy import deepcopy
-
-
-# rc Parameters
-plt.rc('text', usetex=True)
-plt.rc('font', family='serif', size=14)
 
 
 # Figure and axes
@@ -30,26 +24,20 @@ ax = fig.add_subplot(111, projection='3d')
 t = Tetrahedro([0,0,0], np.sqrt(2)/2)
 
 for cara in t.caras:#[::2]:
-    ax.add_collection3d(deepcopy(cara), zs='z')
+    ax.add_collection3d(cara)
 
-
+    
 # Cubos
-c = Cubo(np.sqrt(2)/2, t.vertices[0]-np.array([1,1,1])*np.sqrt(2)/2)
+c = Cubo(np.sqrt(2)/2, t.vertices[0]-np.array([1,1,1])*np.sqrt(2)/2, 0, 'black', '-', 1.5)
 
-for cara in c.caras:
-    ax.add_collection3d(deepcopy(cara), zs='z')
+ax.add_collection3d(c.caras)
 
-for edge in c.bordes:
-    ax.plot3D(*edge, color='black', lw=1.5)      
+ax.scatter3D(*np.hsplit(c.vertices,3), s=0)
 
 
-c = Cubo(np.sqrt(2)/2, t.vertices[0])
+c = Cubo(np.sqrt(2)/2, t.vertices[0], 0, 'black', '-', 1.5)
 
-for cara in c.caras:
-    ax.add_collection3d(deepcopy(cara), zs='z')
-
-for edge in c.bordes:
-    ax.plot3D(*edge, color='black', lw=1.5)      
+ax.add_collection3d(c.caras)
 
 
 # Spines
@@ -93,13 +81,13 @@ s = Spines(posiciones, s1234)
 
 # Números a los sitios
 for i, pos in enumerate(s.posiciones):
-    ax.text(*pos+[0.01,0,-.15], str(i+1), fontsize=14)
+    ax.text(*pos+[0.01,0,-.15], str(i+1), fontfamily='serif', fontsize=12)
 
 
 # Labels
-ax.set_xlabel('$x$', fontsize=26)
-ax.set_ylabel('$y$', fontsize=26)
-ax.set_zlabel('$z$', fontsize=26)
+ax.set_xlabel('x', fontfamily='serif', fontsize=20)
+ax.set_ylabel('y', fontfamily='serif', fontsize=20)
+ax.set_zlabel('z', fontfamily='serif', fontsize=20)
 
 ax.xaxis.labelpad = -10
 ax.yaxis.labelpad = -10

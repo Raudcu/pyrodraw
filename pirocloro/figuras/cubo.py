@@ -29,7 +29,7 @@ class Cubo:
     # Método para el cálculo de los vértices. Se corresponde a trasladar el vértice en [0,0,0] en 'vert'.
     def calcula_vertices(self):
         self.vertices = self.vert + np.array(list(product([0, self.L], [0, self.L], [0, self.L])))
-   
+
 
     # Método para el cálculo de los bordes.
     def calcula_bordes(self):
@@ -59,23 +59,19 @@ class Cubo:
             vert_y = self.vertices[cara,1] # Las cuatos posiciones y de cada vértice de la cara.
             vert_z = self.vertices[cara,2] # Las cuatos posiciones z de cada vértice de la cara.
         
-            self.vert_caras.append( [[np.array(vert) for vert in zip(vert_x, vert_y, vert_z)]] )
+            self.vert_caras.append( [np.array(vert) for vert in zip(vert_x, vert_y, vert_z)] )
                         
                 
     # Método par dibujar las caras del Cubo a partir de los vértices de sus caras. 
     def dibuja_caras(self, face_alpha, edge_color, line_style, line_width):
         
-        self.caras = []
-            
-        for cara in self.vert_caras:
-            self.caras.append(Poly3DCollection(cara, facecolors = mcolors.to_rgba('gray', alpha=face_alpha), edgecolors=edge_color, linestyle=line_style, lw=line_width))
+        self.caras = Poly3DCollection(self.vert_caras, facecolors = mcolors.to_rgba('gray', alpha=face_alpha), edgecolors=edge_color, linestyle=line_style, lw=line_width)
 
 
             
 if __name__ == "__main__":
 
     import matplotlib.pyplot as plt
-    from copy import deepcopy
 
 
     fig = plt.figure()
@@ -84,8 +80,7 @@ if __name__ == "__main__":
 
     c = Cubo(np.sqrt(2)*2, [1,1,1], 0.2, 'black', '-', 1)
 
-    for cara in c.caras:
-        ax.add_collection3d(deepcopy(cara))
+    ax.add_collection3d(c.caras)
 
     for edge in c.bordes:
         ax.plot3D(*edge, color='red', lw=3)      
@@ -95,8 +90,7 @@ if __name__ == "__main__":
 
     c = Cubo(1)
 
-    for cara in c.caras:
-        ax.add_collection3d(deepcopy(cara))
+    ax.add_collection3d(c.caras)
 
     for edge in c.bordes:
         ax.plot3D(*edge, color='blue', lw=2)      
@@ -104,7 +98,7 @@ if __name__ == "__main__":
     ax.scatter3D(*np.hsplit(c.vertices,3), s=60)
 
     
-    #ax.set_aspect('equal')
+    ax.set_aspect('equal')
     ax.view_init(20,-75)
 
     plt.subplots_adjust(left=0, bottom=0, right=1, top=1)

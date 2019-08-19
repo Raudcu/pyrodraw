@@ -47,8 +47,8 @@ if __name__ == "__main__":
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
-
-    f = Flecha([1,2,3], [-1,-2,1], 0.5, 10, 1.5, 0.4)
+#    def __init__(self, pivot, eje, largo, cilindro_largo_ratio, radio, cono_cilindro_radio_ratio):
+    f = Flecha([1,2,3], [-1,-2,1], 10, 0.5, 0.4, 1.5)
 
     x, y, z = zip(*f.coordenadas)
     ax.plot_surface(np.array(x), np.array(y), np.array(z), color='r')
