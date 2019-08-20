@@ -43,10 +43,10 @@ ax.add_collection3d(c.caras)
 # Spines
 s1234 = [1,-1,1,-1]
 
-posiciones = np.array([[ 0.125,  0.125,  0.125],
-                       [ 0.125, -0.125, -0.125],
-                       [-0.125, -0.125,  0.125],
-                       [-0.125,  0.125, -0.125]]) /  (np.sqrt(2)/4)
+posiciones = np.array([[ 1,  1,  1],
+                       [ 1, -1, -1],
+                       [-1, -1,  1],
+                       [-1,  1, -1]]) / 8 / (np.sqrt(2)/4)
 
 s = Spines(posiciones, s1234)
 
