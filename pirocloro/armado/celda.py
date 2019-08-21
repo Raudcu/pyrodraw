@@ -69,7 +69,7 @@ class CeldaUnidad:
 
         for centro, i in zip(self.centros_down, range(self.spin_inicial, self.spin_inicial + 16, 4)):
 
-            if _down_neighbors.index.contains(i):
+            if i in _down_neighbors.index:
                 _spines_down = np.insert(_down_neighbors.loc[i].values, 0, i)
 
             else:
