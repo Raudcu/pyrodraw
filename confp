@@ -44,9 +44,15 @@ elif len(sys.argv)==1:
     ax.zaxis.labelpad = -10
 
 
+    # Ingreso de parámetros
+    numeros = input("\n*Ingresar 'y' si se desean numerar los Sitios [Enter para No]: ")
+    plot_numeros = True if numeros=='y' else False
+
+
     # Construyo y ploteo el sistema.
+    print("\n\n***Espere mientras se arma el plot***\n")
     s = Sistema(spin_values)
-    s.plotear(ax, plot_numeros=False)
+    s.plotear(ax, plot_numeros=plot_numeros)
 
 
 else:
