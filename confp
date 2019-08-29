@@ -45,7 +45,7 @@ elif len(sys.argv)==1:
 
 
     # Ingreso de parámetros
-    numeros = input("\n*Ingresar 'y' si se desean numerar los Sitios [Enter para No]: ")
+    numeros = input("\n*Ingresar 'y' si se desean numerar los sitios [Enter para No]: ")
     plot_numeros = True if numeros=='y' else False
 
 
@@ -109,7 +109,7 @@ else:
 
 
     # Ingreso de parámetros y opciones.
-    L = input("\n*Ingresar 'LxLyLz' del sistema a graficar [Enter para valor por defecto 111]: ")
+    L = input("\n*Ingresar 'LxLyLz' que se desea graficar [Enter para valor por defecto 111]: ")
     L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)              
 
 
