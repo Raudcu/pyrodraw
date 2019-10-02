@@ -12,8 +12,9 @@ class Flecha:
     
     # Inicializo
     def __init__(self, pivot, eje, largo, cilindro_largo_ratio, radio, cono_cilindro_radio_ratio):
-        self.pivot = np.array(pivot) - 0.5 * cilindro_largo_ratio*largo * np.array(eje)
-        self.eje = eje # No lo normalizo porque lo hacen Cilindro y Cono
+        self.eje = np.array(eje)/np.linalg.norm(np.array(eje))
+        self.pivot = np.array(pivot) - 0.5 * cilindro_largo_ratio*largo * self.eje
+        
 
         self.largo = largo
         self.radio = radio
