@@ -45,7 +45,7 @@ elif len(sys.argv)==1:
 
 
     # Ingreso de parámetros
-    numeros = input("\n*Ingresar 'y' si se desean numerar los sitios [Enter para No]: ")
+    numeros = input("\n*¿Enumerar los sitios? (y/n) [Enter para NO]: ")
     plot_numeros = True if numeros=='y' else False
 
 
@@ -56,6 +56,8 @@ elif len(sys.argv)==1:
 
 
 else:
+    posiciones = np.array([])
+    
     filename = sys.argv[1]
         
     if filename=='+z':
@@ -77,7 +79,9 @@ else:
             df = pd.read_csv(filename, sep='\s+', header=None, skiprows=1, float_precision='high') 
             
             spin_values = df.iloc[:,4]
-            posiciones = df.iloc[:,1:4]
+    
+            pos = input("\n*¿Posiciones desde archivo? (y/n) [Enter para NO]: ")
+            if pos=='y': posiciones = df.iloc[:,1:4]
 
 
         elif len(sys.argv) == 3:
@@ -107,10 +111,6 @@ else:
 
 
     # Ingreso de parámetros y opciones.
-    pos = input("\n*¿Posiciones desde archivo? (y/n) [Enter para NO]: ")
-    if not pos=='y': posiciones = np.array([])
-
-    
     L = input("\n*Tamaño 'LxLyLz' que se desea graficar [Enter para 111]: ")
     L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)              
 
