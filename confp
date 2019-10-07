@@ -56,8 +56,6 @@ elif len(sys.argv)==1:
 
 
 else:
-    posiciones = np.array([])
-
     filename = sys.argv[1]
         
     if filename=='+z':
@@ -109,19 +107,23 @@ else:
 
 
     # Ingreso de parámetros y opciones.
-    L = input("\n*Ingresar 'LxLyLz' que se desea graficar [Enter para valor por defecto 111]: ")
+    pos = input("\n*¿Posiciones desde archivo? (y/n) [Enter para NO]: ")
+    if not pos=='y': posiciones = np.array([])
+
+    
+    L = input("\n*Tamaño 'LxLyLz' que se desea graficar [Enter para 111]: ")
     L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)              
 
 
-    inicial = input("\n*Ingresar 'xyz' de la celda inicial [Enter para valor por defecto 000]: ")
+    inicial = input("\n*Posición 'xyz' de la celda inicial [Enter para 000]: ")
     inicial = np.array([int(i) for i in inicial]) if inicial else np.zeros(3, np.int)
 
 
-    field = input("\n*Ingresar dirección del campo 'BxByBz' [Enter para no graficar]: ")
+    field = input("\n*Dirección del campo 'BxByBz' [Enter para NO graficar]: ")
     field = np.array([int(i) for i in field]) if field else np.zeros(3, np.int)
 
 
-    nice = input("\n*Ingresar 'y' si se desean spines y monopolos \"bonitos\" (es más lento) [Enter para flechas y puntos]: ")
+    nice = input("\n*¿Spines y Monopolos \"bonitos\"? (y/n) [Enter para NO]: ")
     plot_flechas, plot_monopolos = (True, True) if nice=='y' else (False, False)
 
 
