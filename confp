@@ -45,13 +45,17 @@ elif len(sys.argv)==1:
 
 
     # Ingreso de parámetros
+    L = input("\n*Tamaño 'LxLyLz' que se desea graficar [Enter para 111]: ")
+    L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)              
+
+    
     numeros = input("\n*¿Enumerar los sitios? (y/n) [Enter para NO]: ")
     plot_numeros = True if numeros=='y' else False
 
 
     # Construyo y ploteo el sistema.
     print("\n\n***Espere mientras se arma el plot***\n")
-    s = Sistema(spin_values)
+    s = Sistema(spin_values, L=L)
     s.plotear(ax, plot_numeros=plot_numeros)
 
 
