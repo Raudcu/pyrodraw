@@ -1,4 +1,4 @@
-from mpl_toolkits.mplot3d import axes3d
+from mpl_toolkits.mplot3d import axes3d # No longer needs import since 3.1.0
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from matplotlib import colors as mcolors
