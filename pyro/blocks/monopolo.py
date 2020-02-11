@@ -17,30 +17,30 @@ class Monopolo(Esfera):
 
         # Spin Ice
         if self.carga == 0:
-            Esfera.__init__(self, centro, 0)
+            super().__init__(centro, 0)
             self.color = "k"
 
         # Monopolo simple
         elif self.carga == +2:
-            Esfera.__init__(self, centro, 0.16)
+            super().__init__(centro, 0.16)
             self.color = "#02590f"
 
         elif self.carga == -2:
-            Esfera.__init__(self, centro, 0.16)
+            super().__init__(centro, 0.16)
             self.color = "#be0119"
 
         # Monopolo doble
         elif self.carga == +4:
-            Esfera.__init__(self, centro, 0.24)
+            super().__init__(centro, 0.24)
             self.color = "#01ff07"
 
         elif self.carga == -4:
-            Esfera.__init__(self, centro, 0.24)
+            super().__init__(centro, 0.24)
             self.color = "r"
 
         # Otro caso (con Spines que valen 0)
         else:
-            Esfera.__init__(self, centro, 0)
+            super().__init__(centro, 0)
             self.color = "k"
 
 
