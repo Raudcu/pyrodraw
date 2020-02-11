@@ -1,9 +1,12 @@
-from pirocloro.figuras.esfera import Esfera
+from pyro.blocks.esfera import Esfera
 
 
-'''
-:class: 'Monopolo'. Clase que hereda de Esfera para armar el Monopolo en 'centro' y con color dependiendo de 'carga'. Además el radio distingue si se trata de un monopolo simple o doble.
-'''
+"""
+:class: 'Monopolo'. Clase que hereda de Esfera para armar el Monopolo en 'centro' y con 
+color dependiendo de 'carga'. Además el radio distingue si se trata de un monopolo
+simple o doble.
+"""
+
 
 class Monopolo(Esfera):
 
@@ -12,38 +15,33 @@ class Monopolo(Esfera):
 
         self.carga = carga
 
-
         # Spin Ice
         if self.carga == 0:
             Esfera.__init__(self, centro, 0)
-            self.color = 'k'
-
+            self.color = "k"
 
         # Monopolo simple
         elif self.carga == +2:
             Esfera.__init__(self, centro, 0.16)
-            self.color = '#02590f'
+            self.color = "#02590f"
 
         elif self.carga == -2:
             Esfera.__init__(self, centro, 0.16)
-            self.color = '#be0119'
-
+            self.color = "#be0119"
 
         # Monopolo doble
         elif self.carga == +4:
             Esfera.__init__(self, centro, 0.24)
-            self.color = '#01ff07'
+            self.color = "#01ff07"
 
         elif self.carga == -4:
             Esfera.__init__(self, centro, 0.24)
-            self.color = 'r'    
-
+            self.color = "r"
 
         # Otro caso (con Spines que valen 0)
         else:
             Esfera.__init__(self, centro, 0)
-            self.color = 'k'
-
+            self.color = "k"
 
 
 if __name__ == "__main__":
@@ -53,23 +51,20 @@ if __name__ == "__main__":
 
     import numpy as np
 
-    
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+    ax = fig.add_subplot(111, projection="3d")
 
-    
-    m = Monopolo([0,0,0], int(sum( [1,1,-1,1] )))
+    m = Monopolo([0, 0, 0], int(sum([1, 1, -1, 1])))
 
     x, y, z = zip(*m.coordenadas)
     ax.plot_surface(np.array(x), np.array(y), np.array(z), color=m.color)
 
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_zlim(0, 1)
 
-    ax.set_xlim(0,1)
-    ax.set_ylim(0,1)
-    ax.set_zlim(0,1)
-    
-    ax.set_aspect('equal')
-    ax.view_init(20,-75)
+    ax.set_aspect("equal")
+    ax.view_init(20, -75)
 
     plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
     plt.show()

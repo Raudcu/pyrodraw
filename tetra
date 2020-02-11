@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 
-'''
-Script para plotear un Tetrahedro Up y uno Down junto con los cubos en los que se inscriben y una configuración dada de Spines.
+"""
+Script para plotear un Tetrahedro Up y uno Down junto con los cubos en los que se 
+inscriben y una configuración dada de Spines.
+
 Se ejecuta en cualquier lado: tetra
-'''
+"""
 
 # General setup
-from pirocloro.figuras.tetrahedro import Tetrahedro
-from pirocloro.figuras.cubo import Cubo
-from pirocloro.piezas.spines import Spines
-from pirocloro.piezas.monopolo import Monopolo
+from pyro.blocks.tetrahedro import Tetrahedro
+from pyro.blocks.cubo import Cubo
+from pyro.blocks.spines import Spines
+from pyro.blocks.monopolo import Monopolo
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -17,36 +19,42 @@ import numpy as np
 
 # Figure and axes
 fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
+ax = fig.add_subplot(111, projection="3d")
 
 
 # Tetrahedros
-t = Tetrahedro([0,0,0], np.sqrt(2)/2)
+t = Tetrahedro([0, 0, 0], np.sqrt(2) / 2)
 
-for cara in t.caras:#[::2]:
+for cara in t.caras:  # [::2]:
     ax.add_collection3d(cara)
 
-    
+
 # Cubos
-c = Cubo(np.sqrt(2)/2, t.vertices[0]-np.array([1,1,1])*np.sqrt(2)/2, 0, 'black', '-', 1.5)
+c = Cubo(
+    np.sqrt(2) / 2,
+    t.vertices[0] - np.array([1, 1, 1]) * np.sqrt(2) / 2,
+    0,
+    "black",
+    "-",
+    1.5,
+)
 
 ax.add_collection3d(c.caras)
 
-ax.scatter3D(*np.hsplit(c.vertices,3), s=0)
+ax.scatter3D(*np.hsplit(c.vertices, 3), s=0)
 
 
-c = Cubo(np.sqrt(2)/2, t.vertices[0], 0, 'black', '-', 1.5)
+c = Cubo(np.sqrt(2) / 2, t.vertices[0], 0, "black", "-", 1.5)
 
 ax.add_collection3d(c.caras)
 
 
 # Spines
-s1234 = [1,-1,1,-1]
+s1234 = [1, -1, 1, -1]
 
-posiciones = np.array([[ 1,  1,  1],
-                       [ 1, -1, -1],
-                       [-1, -1,  1],
-                       [-1,  1, -1]]) / 8 / (np.sqrt(2)/4)
+posiciones = (
+    np.array([[1, 1, 1], [1, -1, -1], [-1, -1, 1], [-1, 1, -1]]) / 8 / (np.sqrt(2) / 4)
+)
 
 s = Spines(posiciones, s1234)
 
@@ -58,12 +66,12 @@ s = Spines(posiciones, s1234)
 #     ax.plot_surface(np.array(x), np.array(y), np.array(z), color=color)
 
 ## Feas
-# s.colores = np.concatenate((s.colores, np.repeat(s.colores,2,axis=0)))           
-# ax.quiver(*np.hsplit(s.posiciones,3), *np.hsplit(s.vectores,3), 
-#           length=0.5, arrow_length_ratio=0.5, pivot='middle', normalize=True,            
+# s.colores = np.concatenate((s.colores, np.repeat(s.colores,2,axis=0)))
+# ax.quiver(*np.hsplit(s.posiciones,3), *np.hsplit(s.vectores,3),
+#           length=0.5, arrow_length_ratio=0.5, pivot='middle', normalize=True,
 #           capstyle='round', colors=s.colores, lw=2)
 
-    
+
 # Puntos donde hay Spines que valen 0
 # for i, spin in enumerate(s.s1234):
 #     if spin == 0:
@@ -71,23 +79,23 @@ s = Spines(posiciones, s1234)
 
 
 # Monopolos
-#m = Monopolo([0,0,0], int(sum( s1234 )))
+# m = Monopolo([0,0,0], int(sum( s1234 )))
 
 # x, y, z = zip(*m.coordenadas)
 # ax.plot_surface(np.array(x), np.array(y), np.array(z), color=m.color)
 
-#ax.scatter(*m.centro, s=m.radio*2800, color=m.color)
+# ax.scatter(*m.centro, s=m.radio*2800, color=m.color)
 
 
 # Números a los sitios
 for i, pos in enumerate(s.posiciones):
-    ax.text(*pos+[0.01,0,-.15], str(i+1), fontfamily='serif', fontsize=12)
+    ax.text(*pos + [0.01, 0, -0.15], str(i + 1), fontfamily="serif", fontsize=12)
 
 
 # Labels
-ax.set_xlabel('x', fontfamily='serif', fontsize=20)
-ax.set_ylabel('y', fontfamily='serif', fontsize=20)
-ax.set_zlabel('z', fontfamily='serif', fontsize=20)
+ax.set_xlabel("x", fontfamily="serif", fontsize=20)
+ax.set_ylabel("y", fontfamily="serif", fontsize=20)
+ax.set_zlabel("z", fontfamily="serif", fontsize=20)
 
 ax.xaxis.labelpad = -10
 ax.yaxis.labelpad = -10
@@ -95,33 +103,33 @@ ax.zaxis.labelpad = -10
 
 
 # Limits for only one Tetrahedron
-#ax.set_xlim(-np.sqrt(2)/4*1.2, np.sqrt(2)/4)
-#ax.set_ylim(-np.sqrt(2)/4*1.2, np.sqrt(2)/4)
-#ax.set_zlim(-np.sqrt(2)/4*1.2, np.sqrt(2)/4)
+# ax.set_xlim(-np.sqrt(2)/4*1.2, np.sqrt(2)/4)
+# ax.set_ylim(-np.sqrt(2)/4*1.2, np.sqrt(2)/4)
+# ax.set_zlim(-np.sqrt(2)/4*1.2, np.sqrt(2)/4)
 
 
 # Hide axis
-# ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0)) 
-# ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0)) 
-# ax.w_zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0)) 
+# ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+# ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+# ax.w_zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
 
-# ax.w_xaxis.line.set_color((1.0, 1.0, 1.0, 0.0)) 
-# ax.w_yaxis.line.set_color((1.0, 1.0, 1.0, 0.0)) 
+# ax.w_xaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
+# ax.w_yaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
 # ax.w_zaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
 
-ax.set_xticks([])                               
-ax.set_yticks([])                               
+ax.set_xticks([])
+ax.set_yticks([])
 ax.set_zticks([])
 
-    
-# Show
-ax.set_aspect('equal')
-ax.view_init(25,-55)
-#ax.view_init(0,270)
-#ax.view_init(0,45)
 
-#plt.savefig('tetra.pdf', transparent=True, bbox_inches='tight')
-#plt.savefig('tetra.png', transparent=True, bbox_inches='tight', dpi=500)
+# Show
+ax.set_aspect("equal")
+ax.view_init(25, -55)
+# ax.view_init(0,270)
+# ax.view_init(0,45)
+
+# plt.savefig('tetra.pdf', transparent=True, bbox_inches='tight')
+# plt.savefig('tetra.png', transparent=True, bbox_inches='tight', dpi=500)
 
 plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
 plt.show()
