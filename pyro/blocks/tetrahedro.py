@@ -5,8 +5,6 @@ from matplotlib import colors as mcolors
 
 import numpy as np
 
-from itertools import combinations
-
 
 """
 :class: 'Tetrahedro'. Clase para el dibujo de Tetrahedros de a pares (uno 'Up' y uno
@@ -28,7 +26,7 @@ class Tetrahedro:
         self.calcula_caras()
         self.dibuja_caras(N)
 
-    # Método para el cálulo de los vértices. Se corresponde a sumarle a 'centro' las 
+    # Método para el cálulo de los vértices. Se corresponde a sumarle a 'centro' las
     # posiciones de los vértices del Tetrahedro 'Up' respecto a su centro.
     def calcula_vertices(self):
         self.vertices = self.centro + self.L / 2 * np.array(
@@ -43,22 +41,19 @@ class Tetrahedro:
 
         # Con este loop se consideran todas las maneras de tomar de a tres puntos entre
         # los cuatro vértices del Tetrahedro, o sea, los vértices de cada cara triangular.
-        for cara in combinations(range(4), 3):
-            vert_x = self.vertices[
-                cara, 0
-            ]  # Las tres posiciones x de cada vértice de la cara triangular.
-            vert_y = self.vertices[
-                cara, 1
-            ]  # Las tres posiciones y de cada vértice de la cara triangular.
-            vert_z = self.vertices[
-                cara, 2
-            ]  # Las tres posiciones z de cada vértice de la cara triangular.
+        for cara in [(0, 1, 2), (0, 1, 3), (0, 2, 3), (1, 2, 3)]:
+            # Las tres posiciones x de cada vértice de la cara triangular.
+            vert_x = self.vertices[cara, 0]
+            # Las tres posiciones y de cada vértice de la cara triangular.
+            vert_y = self.vertices[cara, 1]
+            # Las tres posiciones z de cada vértice de la cara triangular.
+            vert_z = self.vertices[cara, 2]
 
             self.vert_up.append(
                 [[np.array(vert) for vert in zip(vert_x, vert_y, vert_z)]]
             )
 
-            # Las caras del Tetrahedro down se arman invirtiendo los valores de los 
+            # Las caras del Tetrahedro down se arman invirtiendo los valores de los
             # vértices y trasladándolos.
             self.vert_down.append(
                 [
@@ -73,7 +68,7 @@ class Tetrahedro:
                 ]
             )
 
-    # Método par dibujar las caras de ambos Tetrahedros a partir de los vértices 
+    # Método par dibujar las caras de ambos Tetrahedros a partir de los vértices
     # de sus caras.
     def dibuja_caras(self, N):
 
