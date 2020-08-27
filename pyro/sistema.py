@@ -1,10 +1,10 @@
 import numpy as np
 import sys
 
-from pyro.celda import CeldaUnidad
+from pyro import CeldaUnidad
 
-from pyro.blocks.paralelepipedo import Paralelepipedo
-from pyro.blocks.flecha import Flecha
+from pyro.blocks import Paralelepipedo
+from pyro.blocks import Flecha
 
 """
 :class: 'Sistema'. Clase para construir y plotear todas las celdas que 

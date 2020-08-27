@@ -1,6 +1,6 @@
 import numpy as np
 
-from pyro.blocks.flecha import Flecha
+from pyro.blocks import Flecha
 
 
 """

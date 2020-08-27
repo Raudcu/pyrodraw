@@ -1,4 +1,4 @@
-from pyro.blocks.esfera import Esfera
+from pyro.blocks import Esfera
 
 
 """

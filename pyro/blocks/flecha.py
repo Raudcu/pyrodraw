@@ -1,7 +1,7 @@
 import numpy as np
 
-from pyro.blocks.cilindro import Cilindro
-from pyro.blocks.cono import Cono
+from pyro.blocks import Cilindro
+from pyro.blocks import Cono
 
 
 """
