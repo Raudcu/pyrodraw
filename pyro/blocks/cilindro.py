@@ -63,7 +63,6 @@ class Cilindro:
 if __name__ == "__main__":
 
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection="3d")
@@ -73,7 +72,8 @@ if __name__ == "__main__":
     x, y, z = zip(*c.coordenadas)
     ax.plot_surface(np.array(x), np.array(y), np.array(z), color="r")
 
-    ax.set_aspect("equal")
+    # ax.set_aspect("equal")
+    ax.set_box_aspect((1, 1, 1))
     ax.view_init(20, -75)
 
     plt.subplots_adjust(left=0, bottom=0, right=1, top=1)

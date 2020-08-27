@@ -131,7 +131,7 @@ else:
     field = input("\n*Dirección del campo 'BxByBz' [Enter para NO graficar]: ")
     field = np.array([int(i) for i in field]) if field else np.zeros(3, np.int)
 
-    nice = input('\n*¿Spines y Monopolos "bonitos"? (y/n) [Enter para NO]: ')
+    nice = input('\n*¿Spines y Monopolos "lindos"? (y/n) [Enter para NO]: ')
     plot_flechas, plot_monopolos = (True, True) if nice == "y" else (False, False)
 
     # Construyo y ploteo el sistema.
@@ -145,7 +145,7 @@ ax.view_init(20, -75)
 # ax.view_init(0,270)
 # ax.view_init(0,45)
 
-# plt.savefig(filename[:-4]+'.pdf', transparent=True, bbox_inches='tight')
+plt.savefig('hol.pdf', transparent=True, bbox_inches='tight')
 # plt.savefig(filename[:-4]+'.png', transparent=True, bbox_inches='tight', dpi=500)
 
 plt.subplots_adjust(left=0, bottom=0, right=1, top=1)

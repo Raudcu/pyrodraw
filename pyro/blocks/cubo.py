@@ -1,4 +1,3 @@
-from mpl_toolkits.mplot3d import axes3d  # No longer needs import since 3.1.0
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from matplotlib import colors as mcolors
@@ -126,7 +125,8 @@ if __name__ == "__main__":
 
     ax.scatter3D(*np.hsplit(c.vertices, 3), s=60)
 
-    ax.set_aspect("equal")
+    # ax.set_aspect("equal")
+    ax.set_box_aspect((1, 1, 1))
     ax.view_init(20, -75)
 
     plt.subplots_adjust(left=0, bottom=0, right=1, top=1)

@@ -245,7 +245,8 @@ class Sistema:
             (self.iz + max(self.Lx, self.Ly, self.Lz)) * np.sqrt(8),
         )
 
-        ax.set_aspect("equal")
+        # ax.set_aspect("equal")
+        ax.set_box_aspect((1, 1, 1))
 
         # Hide axis. No uso ax.axis('off') para que pueda poner nombre a los ejes cuando sólo dibujo la red.
         ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
