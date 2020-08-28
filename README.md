@@ -1,4 +1,4 @@
-# pyrodraw
+# Overview
 
 Library based on matplotlib to draw the pyrochlore lattice and configurations of the Spin Ice model.
 
@@ -14,8 +14,8 @@ and follow the instructions which appear on the screen.
 
 # Basic usage
 
-Depending on the parameters entered:
-* '' draws only the pyrochloro network and adds details such as names to the axes.
+Depending on the parameters suplied:
+* No arguments: draws only the pyrochloro network and adds details such as names to the axes.
 * '+ z' draws the + z configuration.
 * 'ms' draws the saturation configuration with the field at [111], with positives simple monopoles in all Up Tetrahedra.
 * 'md' draws the configuration with positive double monopoles in all Up Tetrahedra.
