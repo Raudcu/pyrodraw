@@ -28,6 +28,6 @@ The following are things I didn't know how to do it properly by the time I built
 * The documentation is not properly done (doesn't follow a docstring convention), and it's in spanish.
 * It probably should use `argparse` for managing the arguments.
 
-# TODO
+# ToDo
 * Add a circle path as a bottom lid for the arrows.
 * Be possible to annotate the field direction when using the field arrow.
