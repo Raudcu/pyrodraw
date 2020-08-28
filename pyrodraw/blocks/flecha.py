@@ -1,7 +1,7 @@
 import numpy as np
 
-from pyro.blocks import Cilindro
-from pyro.blocks import Cono
+from pyrodraw.blocks import Cilindro
+from pyrodraw.blocks import Cono
 
 
 """

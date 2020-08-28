@@ -3,14 +3,12 @@
 """
 Script para plotear configuraciones de red Pirocloro.
 
-Se ejecuta en el directorio donde están los datos: confp FILE
-
 Dependiendo de los parámetros ingresados:
-* '' dibuja solamente la red pirocloro y agrega detalles como el nombres a los ejes.
-* '+z' dibuja la configuración +z.
-* 'ms' dibuja la configuración de saturación con el campo en [111], con monopolos 
+* '': dibuja solamente la red pirocloro y agrega detalles como el nombres a los ejes.
+* '+z': dibuja la configuración spin ice +z.
+* 'ms': dibuja la configuración de saturación con el campo en [111], con monopolos 
 simples positivos en todos los Tetrahedros Up.
-* 'md' dibuja la configuración con monopolos dobles positivos en todos los Tetrahedros Up.
+* 'md': dibuja la configuración con monopolos dobles positivos en todos los Tetrahedros Up.
 * Si se pasa el nombre de un archivo, se obtienen de él los datos para dibujar la 
 configuración. Si no se pasa más que el nombre, se supone que es un output de uno de 
 mis programas y se obtienen del mismo, además de los valores de spin, sus posiciones. Si
@@ -28,7 +26,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from pyro import Sistema
+from pyrodraw import Sistema
 
 
 # Figure and axes
@@ -38,7 +36,7 @@ ax = fig.add_subplot(111, projection="3d")
 
 # System construction
 if len(sys.argv) > 3:
-    sys.exit("\n***ERROR: Demasiados argumentos ingresados***\n")
+    sys.exit("\n***ERROR: Too many arguments***\n")
 
 
 elif len(sys.argv) == 1:
@@ -54,14 +52,14 @@ elif len(sys.argv) == 1:
     ax.zaxis.labelpad = -10
 
     # Ingreso de parámetros
-    L = input("\n*Tamaño 'LxLyLz' que se desea graficar [Enter para 111]: ")
+    L = input("\n*Size 'LxLyLz' to draw [default: 111]: ")
     L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)
 
-    numeros = input("\n*¿Enumerar los sitios? (y/n) [Enter para NO]: ")
+    numeros = input("\n*¿Enumerate sites? (y/n) [default: no]: ")
     plot_numeros = True if numeros == "y" else False
 
     # Construyo y ploteo el sistema.
-    print("\n\n***Espere mientras se arma el plot***\n")
+    print("\n\n***Wait while the plot is built***\n")
     s = Sistema(spin_values, L=L)
     s.plotear(ax, plot_numeros=plot_numeros)
 
@@ -82,7 +80,7 @@ else:
 
     else:
         if not os.path.isfile(filename):
-            sys.exit("\n***ERROR: Opción no válida o archivo inexistente***\n")
+            sys.exit("\n***ERROR: Not valid option or file not found***\n")
 
         if len(sys.argv) == 2:  # Archivos míos
             df = pd.read_csv(
@@ -91,7 +89,7 @@ else:
 
             spin_values = df.iloc[:, 4]
 
-            pos = input("\n*¿Posiciones desde archivo? (y/n) [Enter para NO]: ")
+            pos = input("\n*¿Positions from file? (y/n) [default: no]: ")
             if pos == "y":
                 posiciones = df.iloc[:, 1:4]
 
@@ -122,20 +120,20 @@ else:
                 spin_values = df.iloc[:, int(sys.argv[2]) - 1]
 
     # Ingreso de parámetros y opciones.
-    L = input("\n*Tamaño 'LxLyLz' que se desea graficar [Enter para 111]: ")
+    L = input("\n*Size 'LxLyLz' to draw [default: 111]: ")
     L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)
 
-    inicial = input("\n*Posición 'xyz' de la celda inicial [Enter para 000]: ")
+    inicial = input("\n*Position 'xyz' of the init cell [default: 000]: ")
     inicial = np.array([int(i) for i in inicial]) if inicial else np.zeros(3, np.int)
 
-    field = input("\n*Dirección del campo 'BxByBz' [Enter para NO graficar]: ")
+    field = input("\n*Field direction 'BxByBz' [default: no arrow]: ")
     field = np.array([int(i) for i in field]) if field else np.zeros(3, np.int)
 
-    nice = input('\n*¿Spines y Monopolos "lindos"? (y/n) [Enter para NO]: ')
+    nice = input('\n*Nice spins and monopoles? (y/n) [default: no]: ')
     plot_flechas, plot_monopolos = (True, True) if nice == "y" else (False, False)
 
     # Construyo y ploteo el sistema.
-    print("\n\n***Espere mientras se arma el plot***\n")
+    print("\n\n***Wait while the plot is built***\n")
     s = Sistema(spin_values, posiciones, L, inicial, field)
     s.plotear(ax, plot_flechas, plot_monopolos)
 

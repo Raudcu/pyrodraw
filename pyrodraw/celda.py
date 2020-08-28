@@ -3,11 +3,11 @@ import numpy as np
 import pandas as pd
 from scipy.linalg import norm
 
-from pyro.blocks import Tetrahedro
-from pyro.blocks import Cubo
+from pyrodraw.blocks import Tetrahedro
+from pyrodraw.blocks import Cubo
 
-from pyro.blocks import Spines
-from pyro.blocks import Monopolo
+from pyrodraw.blocks import Spines
+from pyrodraw.blocks import Monopolo
 
 
 """
