@@ -2,6 +2,9 @@
 
 Library based on `matplotlib` (`>=3.3`) to draw the pyrochlore lattice and configurations of the Spin Ice model.
 
+![Example](https://github.com/Raudcu/pyrodraw/blob/master/example.png)
+
+
 # Installation
 
 `$ pip install pyrodraw`
