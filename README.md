@@ -1,6 +1,6 @@
 # Overview
 
-Library based on `matplotlib` (`>=3.3`) to draw the pyrochlore lattice and configurations of the Spin Ice model.
+Library based on `matplotlib` (`>=3.3`) to draw the pyrochlore lattice (corner-sharing tetrahedra) and configurations of the Spin Ice model.
 
 ![Example](https://github.com/Raudcu/pyrodraw/blob/master/example.png)
 
@@ -13,7 +13,7 @@ Library based on `matplotlib` (`>=3.3`) to draw the pyrochlore lattice and confi
 
 It can, and probably should, be executed as a script:
 
-`python -m pyrodraw`
+`python -m pyrodraw [<parameters>...]`
 
 and follow the instructions which appear on the screen.
 
