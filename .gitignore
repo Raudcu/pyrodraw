@@ -131,3 +131,4 @@ dmypy.json
 # Other
 .vscode
 poetry.lock
+down_neighbors/
