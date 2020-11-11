@@ -2,7 +2,7 @@
 
 Library based on `matplotlib` (`>=3.3`) to draw the pyrochlore lattice (corner-sharing tetrahedra) and configurations of the Spin Ice model.
 
-![Example](https://github.com/Raudcu/pyrodraw/blob/master/example.png)
+![Example](https://raw.githubusercontent.com/Raudcu/pyrodraw/master/example.png)
 
 
 # Installation
