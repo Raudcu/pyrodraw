@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.linalg import norm
 
 
 """
@@ -14,7 +13,7 @@ class Cono:
     # Inicializo
     def __init__(self, base, eje, radio_max, largo):
         self.base = np.array(base)
-        self.eje = np.array(eje) / norm(eje)  # Vector unitario
+        self.eje = np.array(eje) / np.linalg.norm(eje)  # Vector unitario
         self.radio_max = radio_max
         self.largo = largo
 
@@ -35,7 +34,7 @@ class Cono:
             not_eje = np.array([0, 1, 0])
 
         _n1 = np.cross(self.eje, not_eje)
-        _n1 = _n1 / norm(_n1)
+        _n1 = _n1 / np.linalg.norm(_n1)
 
         _n2 = np.cross(self.eje, _n1)
 

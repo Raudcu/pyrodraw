@@ -1,7 +1,6 @@
 import os
 import numpy as np
 import pandas as pd
-from scipy.linalg import norm
 
 from pyrodraw.blocks import Tetrahedro
 from pyrodraw.blocks import Cubo
@@ -118,7 +117,7 @@ class CeldaUnidad:
         r_ij = np.array(r_ij)
 
         # Calculo las distancias entre el spin i y el resto.
-        distancias = np.apply_along_axis(lambda x: norm(x), 1, r_ij)
+        distancias = np.linalg.norm(r_ij, axis=1)
 
         # Determino quienes son los primeros vecinos del spin i ordenando las distancias
         # y quedándome con los seis siguientes.
