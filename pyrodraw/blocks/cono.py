@@ -40,7 +40,7 @@ class Cono:
 
         # Variables paramétricas y grid.
         _theta = np.linspace(0, 2 * np.pi, 100)
-        _t = np.linspace(0, -1, 100)
+        _t = np.linspace(0, -1, 500)
 
         _theta, _t = np.meshgrid(_theta, _t)
 

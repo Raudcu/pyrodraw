@@ -78,9 +78,9 @@ class Tetrahedro:
                 Poly3DCollection(
                     cara_up,
                     facecolors=mcolors.to_rgba(
-                        "mediumpurple", alpha=(0.1 + i * 0.1) / np.cbrt(N)
+                        "mediumpurple", alpha=(0.4 - i * 0.08) / np.cbrt(N)
                     ),
-                    edgecolors=mcolors.to_rgba("gray", alpha=0.1 / np.cbrt(N)),
+                    edgecolors=mcolors.to_rgba("gray", alpha=0.2 / np.cbrt(N)),
                 )
             )
 
@@ -88,9 +88,9 @@ class Tetrahedro:
                 Poly3DCollection(
                     cara_down,
                     facecolors=mcolors.to_rgba(
-                        "lightskyblue", alpha=(0.1 + i * 0.1) / np.cbrt(N)
+                        "lightskyblue", alpha=(0.4 - i * 0.08) / np.cbrt(N)
                     ),
-                    edgecolors=mcolors.to_rgba("gray", alpha=0.1 / np.cbrt(N)),
+                    edgecolors=mcolors.to_rgba("gray", alpha=0.2 / np.cbrt(N)),
                 )
             )
 
