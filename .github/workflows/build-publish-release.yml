@@ -8,7 +8,7 @@ name: Create Release and Publish Python 🐍 distributions 📦 to PyPI
 
 jobs:
   build:
-    name: Build, Create Release and publish Python 🐍 distributions 📦 to PyPI
+    name: Build, Create Release and Publish Python 🐍 distributions 📦 to PyPI
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout code
@@ -59,3 +59,4 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./dist/*
+          asset_name: pyrodraw-1.1.4.post1-py3-none-any.whl
