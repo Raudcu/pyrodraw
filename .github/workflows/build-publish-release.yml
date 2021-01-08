@@ -1,10 +1,9 @@
 on:
   push:
-    # Sequence of patterns matched against refs/tags
     tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - 'v*'
 
-name: Create Release and Publish Python 🐍 distributions 📦 to PyPI
+name: Build, Create Release and Publish Python 🐍 distributions 📦 to PyPI
 
 jobs:
   build:
@@ -44,7 +43,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
@@ -54,5 +53,5 @@ jobs:
       - name: Upload Assets
         uses: AButler/upload-release-assets@v2.0
         with:
-          files: 'dist/*'
+          files: 'dist/*.whl'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
