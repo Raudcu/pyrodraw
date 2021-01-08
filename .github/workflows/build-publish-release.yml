@@ -49,12 +49,18 @@ jobs:
           draft: false
           prerelease: false
       
+      - name: Export release assets
+        id: filepath
+        run: |
+          whl=$(find dist/ -name '*.whl' -exec basename {} \;)
+          echo "::set-output name=WHL::$whl"
+      
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: dist/pyrodraw-${{ github.event.release.tag_name }}-py3-none-any.whl
-          asset_name: pyrodraw-${{ github.event.release.tag_name }}-py3-none-any.whl
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/${{ steps.filepath.outputs.WHL }}
+          asset_name: ${{ steps.filepath.outputs.WHL }}
           asset_content_type: application/octet-stream

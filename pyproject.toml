@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyrodraw"
-version = "1.1.4.post10"
+version = "1.1.4.post11"
 description = "Library to draw the pyrochlore lattice and configurations of the Spin Ice model"
 authors = ["Lucas Pili"]
 license = "MIT"
