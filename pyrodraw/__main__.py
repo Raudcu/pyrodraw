@@ -53,7 +53,7 @@ elif len(sys.argv) == 1:
 
     # Ingreso de parámetros
     L = input("\n*Size 'LxLyLz' to draw [default: 111]: ")
-    L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)
+    L = np.array([int(i) for i in L]) if L else np.ones(3, int)
 
     numeros = input("\n*¿Enumerate sites? (y/n) [default: no]: ")
     plot_numeros = True if numeros == "y" else False
@@ -121,13 +121,13 @@ else:
 
     # Ingreso de parámetros y opciones.
     L = input("\n*Size 'LxLyLz' to draw [default: 111]: ")
-    L = np.array([int(i) for i in L]) if L else np.ones(3, np.int)
+    L = np.array([int(i) for i in L]) if L else np.ones(3, int)
 
     inicial = input("\n*Position 'xyz' of the init cell [default: 000]: ")
-    inicial = np.array([int(i) for i in inicial]) if inicial else np.zeros(3, np.int)
+    inicial = np.array([int(i) for i in inicial]) if inicial else np.zeros(3, int)
 
     field = input("\n*Field direction 'BxByBz' [default: no arrow]: ")
-    field = np.array([int(i) for i in field]) if field else np.zeros(3, np.int)
+    field = np.array([int(i) for i in field]) if field else np.zeros(3, int)
 
     nice = input('\n*Nice spins and monopoles? (y/n) [default: no]: ')
     plot_flechas, plot_monopolos = (True, True) if nice == "y" else (False, False)
