@@ -7,16 +7,16 @@ Dependiendo de los parámetros ingresados:
 * '': dibuja solamente la red pirocloro y agrega detalles como el nombres a los ejes.
 * '+z': dibuja la configuración spin ice +z.
 * 'ms': dibuja la configuración de saturación con el campo en [111], con monopolos 
-simples positivos en todos los Tetrahedros Up.
-* 'md': dibuja la configuración con monopolos dobles positivos en todos los Tetrahedros Up.
+simples positivos en todos los Tetraedros Up.
+* 'md': dibuja la configuración con monopolos dobles positivos en todos los Tetraedros Up.
 * Si se pasa el nombre de un archivo, se obtienen de él los datos para dibujar la 
 configuración. Si no se pasa más que el nombre, se supone que es un output de uno de 
 mis programas y se obtienen del mismo, además de los valores de spin, sus posiciones. Si
 se pasa 'ch' como segundo argumento, significa que es un archivo de Chufo: se extraen de
-él los valores de spin y se los ubica en los vértices de los tetrahedros. Si en cambio 
+él los valores de spin y se los ubica en los vértices de los tetraedros. Si en cambio 
 se pasa un valor de columna como segundo argumento, significa entonces que se trata de
 un archivo de otra persona (que no debe tener header): se toman de esa columna los 
-valores de spin y se los ubica en los vértices de los tetrahedros.
+valores de spin y se los ubica en los vértices de los tetraedros.
 """
 
 # General setup

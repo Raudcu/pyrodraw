@@ -2,7 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 
-from pyrodraw.blocks import Tetrahedro
+from pyrodraw.blocks import Tetraedro
 from pyrodraw.blocks import Cubo
 
 from pyrodraw.blocks import Spines
@@ -14,7 +14,7 @@ from pyrodraw.blocks import Monopolo
 partir de su posición particular 'ijk', las posiciones de los spines en 'posiciones' y
 sus valores de spin en 'spin_values'. El parámetro 'N_cells', que da cuenta del número
 total de celdas a dibujar, se pasa como argumento para la graduación del color de las 
-caras de los tetrahedros.
+caras de los tetraedros.
 """
 
 
@@ -38,9 +38,9 @@ class CeldaUnidad:
         # Cubo
         self.cubo = Cubo(np.sqrt(8), np.array(ijk) * np.sqrt(8))
 
-        # Tetrahedros
-        self.tetrahedros = [
-            Tetrahedro(centro, np.sqrt(0.5), N_cells) for centro in self.centros_up
+        # Tetraedros
+        self.tetraedros = [
+            Tetraedro(centro, np.sqrt(0.5), N_cells) for centro in self.centros_up
         ]
 
         # Spines
@@ -50,7 +50,7 @@ class CeldaUnidad:
         ]
 
         # Monopolos
-        ## Tetrahedros Up
+        ## Tetraedros Up
         self.monopolos = [
             Monopolo(centro, -int(sum(spin_values[i : i + 4])))
             for centro, i in zip(
@@ -58,7 +58,7 @@ class CeldaUnidad:
             )
         ]
 
-        ## Tetrahedros Down. Los vecinos para formar el tetrahedro down se pueden buscar
+        ## Tetraedros Down. Los vecinos para formar el tetraedro down se pueden buscar
         ## con el método 'tetra_down'. Para acelerar la ejecución, en especial para
         ## tamaños grandes de sistema, se van guardando en archivos las tabla de vecinos
         ## para cada valor de L: si alguna vez ya se buscó los vecinos para ese spin,
@@ -100,7 +100,7 @@ class CeldaUnidad:
             self.monopolos.append(Monopolo(centro, int(sum(spin_values[_spines_down]))))
 
     @staticmethod
-    # Método para dado un spin apical de un Tetrahedro Up, determinar los vecinos con
+    # Método para dado un spin apical de un Tetraedro Up, determinar los vecinos con
     # los que conforma el Down.
     def tetra_down(i, posiciones, L):
         # Caja
@@ -123,7 +123,7 @@ class CeldaUnidad:
         # y quedándome con los seis siguientes.
         vecinos = np.argsort(distancias)[1:7]
 
-        # Los vecinos con los que el spin i forma el Tetrahedro Down son los tres que
+        # Los vecinos con los que el spin i forma el Tetraedro Down son los tres que
         # tienen todas las componentes de r_ij al menos más grande que -np.sqrt(2)/4:
         # dos vecinos, en posición fija, siempre tienen una de las tres componentes de
         # rij igual a 0 y las otras dos con módulo igual a raíz de dos sobre dos (lo

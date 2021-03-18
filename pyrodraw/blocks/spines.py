@@ -5,14 +5,14 @@ from pyrodraw.blocks import Flecha
 
 """
 :class: 'Spines'. Clase para el cálculo de los vectores correspondientes a los spines
-dede un Tetrahedro Up y sus colores, dependiendo de la configuración pasada a través
+dede un Tetraedro Up y sus colores, dependiendo de la configuración pasada a través
 de 's1234'.
 """
 
 
 class Spines:
 
-    # Base de los Spines de un Tetrahedro Up.
+    # Base de los Spines de un Tetraedro Up.
     base_spin = np.array([[1, 1, 1], [1, -1, -1], [-1, -1, 1], [-1, 1, -1]]) / np.sqrt(
         3
     )

@@ -6,4 +6,4 @@ from .flecha import Flecha
 from .monopolo import Monopolo
 from .paralelepipedo import Paralelepipedo
 from .spines import Spines
-from .tetrahedro import Tetrahedro
+from .tetraedro import Tetraedro

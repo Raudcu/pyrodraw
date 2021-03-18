@@ -81,16 +81,16 @@ class Sistema:
             np.array([self.ix, self.iy, self.iz]) * np.sqrt(8),
         )
 
-    # Método para determinar posiciones de equilibrio (vértices de los tetrahedros).
+    # Método para determinar posiciones de equilibrio (vértices de los tetraedros).
     def r0(self, N):
 
         r0 = []
 
         for i in range(1, N, 16):
-            Tetrahedron = []
+            Tetraedron = []
 
-            # Tetrahedros. Determino primero las posiciones de los centros de los cuatro tetrahedros up.
-            Tetrahedron.append(
+            # Tetraedros. Determino primero las posiciones de los centros de los cuatro tetraedros up.
+            Tetraedron.append(
                 np.array(
                     [
                         int(i / 16) % self.L,
@@ -99,16 +99,16 @@ class Sistema:
                     ]
                 )
             )
-            Tetrahedron.append(Tetrahedron[0] + [0.5, 0.5, 0.0])
-            Tetrahedron.append(Tetrahedron[0] + [0.0, 0.5, 0.5])
-            Tetrahedron.append(Tetrahedron[0] + [0.5, 0.0, 0.5])
+            Tetraedron.append(Tetraedron[0] + [0.5, 0.5, 0.0])
+            Tetraedron.append(Tetraedron[0] + [0.0, 0.5, 0.5])
+            Tetraedron.append(Tetraedron[0] + [0.5, 0.0, 0.5])
 
-            # Átomos. Posiciono los átomos en los vértices de cada tetrahedro.
+            # Átomos. Posiciono los átomos en los vértices de cada tetraedro.
             for j in range(4):
-                r0.append(Tetrahedron[j] + [0.125, 0.125, 0.125])
-                r0.append(Tetrahedron[j] + [0.125, -0.125, -0.125])
-                r0.append(Tetrahedron[j] + [-0.125, -0.125, 0.125])
-                r0.append(Tetrahedron[j] + [-0.125, 0.125, -0.125])
+                r0.append(Tetraedron[j] + [0.125, 0.125, 0.125])
+                r0.append(Tetraedron[j] + [0.125, -0.125, -0.125])
+                r0.append(Tetraedron[j] + [-0.125, -0.125, 0.125])
+                r0.append(Tetraedron[j] + [-0.125, 0.125, -0.125])
 
         r0 /= np.sqrt(2) / 4
 
@@ -123,10 +123,10 @@ class Sistema:
             # Cubo
             ax.add_collection3d(celda.cubo.caras)
 
-            # Tetrahedros
-            for tetrahedro in celda.tetrahedros:
+            # Tetraedros
+            for tetraedro in celda.tetraedros:
 
-                for cara in tetrahedro.caras:
+                for cara in tetraedro.caras:
                     ax.add_collection3d(cara)
 
             # Spines

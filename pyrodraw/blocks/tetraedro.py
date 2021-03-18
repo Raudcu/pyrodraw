@@ -6,15 +6,15 @@ import numpy as np
 
 
 """
-:class: 'Tetrahedro'. Clase para el dibujo de Tetrahedros de a pares (uno 'Up' y uno
+:class: 'Tetraedro'. Clase para el dibujo de Tetraedros de a pares (uno 'Up' y uno
 'Down') en la dirección [111], a partir del centro del 'Up' y el lado 'L' del cubo en el
-que se inscribe. Lo armo dibujando las cuatro caras triangulares de cada Tetrahedro. 
+que se inscribe. Lo armo dibujando las cuatro caras triangulares de cada Tetraedro. 
 También se puede pasar como argumento 'N', que es un número relacionado a la intensidad
 del sombreado en las caras (cuánto mayor es N, más transparentes serán las caras).
 """
 
 
-class Tetrahedro:
+class Tetraedro:
 
     # Inicializo
     def __init__(self, centro, L, N=1):
@@ -26,20 +26,20 @@ class Tetrahedro:
         self.dibuja_caras(N)
 
     # Método para el cálulo de los vértices. Se corresponde a sumarle a 'centro' las
-    # posiciones de los vértices del Tetrahedro 'Up' respecto a su centro.
+    # posiciones de los vértices del Tetraedro 'Up' respecto a su centro.
     def calcula_vertices(self):
         self.vertices = self.centro + self.L / 2 * np.array(
             [[1, 1, 1], [1, -1, -1], [-1, -1, 1], [-1, 1, -1]]
         )
 
-    # Método para encontrar los vértices de cada cara triangular del Tetrahedro.
+    # Método para encontrar los vértices de cada cara triangular del Tetraedro.
     def calcula_caras(self):
 
-        self.vert_up = []  # Vértices de las caras del Tetrahedro Up.
-        self.vert_down = []  # Vértices de las caras del Tetrahedro Down.
+        self.vert_up = []  # Vértices de las caras del Tetraedro Up.
+        self.vert_down = []  # Vértices de las caras del Tetraedro Down.
 
         # Con este loop se consideran todas las maneras de tomar de a tres puntos entre
-        # los cuatro vértices del Tetrahedro, o sea, los vértices de cada cara triangular.
+        # los cuatro vértices del Tetraedro, o sea, los vértices de cada cara triangular.
         for cara in [(0, 1, 2), (0, 1, 3), (0, 2, 3), (1, 2, 3)]:
             # Las tres posiciones x de cada vértice de la cara triangular.
             vert_x = self.vertices[cara, 0]
@@ -52,7 +52,7 @@ class Tetrahedro:
                 [[np.array(vert) for vert in zip(vert_x, vert_y, vert_z)]]
             )
 
-            # Las caras del Tetrahedro down se arman invirtiendo los valores de los
+            # Las caras del Tetraedro down se arman invirtiendo los valores de los
             # vértices y trasladándolos.
             self.vert_down.append(
                 [
@@ -67,7 +67,7 @@ class Tetrahedro:
                 ]
             )
 
-    # Método par dibujar las caras de ambos Tetrahedros a partir de los vértices
+    # Método par dibujar las caras de ambos Tetraedros a partir de los vértices
     # de sus caras.
     def dibuja_caras(self, N):
 
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     fig = plt.figure()
     ax = fig.add_subplot(111, projection="3d")
 
-    t = Tetrahedro([0, 0, 0], 0.5)
+    t = Tetraedro([0, 0, 0], 0.5)
 
     for cara in t.caras:
         ax.add_collection3d(cara)
